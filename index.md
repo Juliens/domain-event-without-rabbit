@@ -10,6 +10,7 @@ Note:
 (image des 2 bouquins d'Evans et Vernon)
 
 ***
+(Quelques termes important pour expliqué qu'on ne s'intéresse qu'à un petit morceau récent : les domain events)
 * Ubiquitous language
 * Bounded context
 * Model Driven Design
@@ -21,16 +22,11 @@ Note:
 * Anti Corruption Layer
 
 ***
-(Exemple code d'une entité pas DDD avec setter/getter uniquement)
+Présentation du thème de l'exemple : la boutique en ligne
+(il faudrait trouver un thème de boutique pour essayer de rendre l'exemple un peu fun)
 
 ***
-(Exemple entité équivalente avec code orienté métier)
-
-***
-Présentation du thème de l'exemple : shop, OAV capvita ?
-
-***
-(Schema représentant les différents bounded contexts : boutique, stock, facturation, reporting, etc)
+(Schema représentant les différents bounded contexts : e-boutique, stock, facturation, reporting, etc)
 
 ***
 (Schema représentant la communication entre les bounded context => domain event)
@@ -43,22 +39,22 @@ Présentation du thème de l'exemple : shop, OAV capvita ?
 * asynchrone
 
 ***
-(Exemple code d'un domain event : ProduitAcheteEvent ?)
+Code d'un domain event : ProduitAcheteEvent
+(src/ProduitAcheteEvent.php)
+(Matérialiser les bounded contexts avec des namespace par ex, pour que ca soit plus visuel ?)
 
 ***
-(Exemple code publication domain event)
+Code d'un listener de domain event : FacturationProduitAcheteListener
+(src/FacturationProduitAcheteListener.php)
 
 ***
 (Schema architecture avec message bus entre les bounded context)
-
-***
-(Même schema avec domain events)
 Le stock écoute le domain event ProduitAcheteEvent pour se mettre à jour, la facturation pour éditer la facture du client, etc
 
 ***
 ### Avantages
 * faible couplages entre les bounded context
-* ajout de fonctionnalités sans  changements dans le code existant
+* ajout de fonctionnalités sans changements dans le code existant
 * robuste
 * tolérence aux pannes
 * scalabilité 
