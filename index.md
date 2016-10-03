@@ -1,5 +1,6 @@
 # FORUM PHP 2016
 **
+
 # PUBLIER DES DOMAIN EVENTS 
 
 **
@@ -97,27 +98,66 @@ Schema avec Tactical Pattern / Strategic Pattern avec le bounded context
 
 **
 
+Des environnements 
+ - différents
+ - isolés 
+ - possédant leur propre Ubiquitous Language
+
+**
+
 (Schema représentant les différents bounded contexts : e-boutique, stock, facturation, reporting, etc)
 
-***
-(Schema représentant la communication entre les bounded context => domain event)
+**
+##Entity dans E-Boutique
+ - Produit
+ - Commentaire
+ - Note
+ - Commande
+ ...
+
+**
+##Entity dans Stock-Fournisseur
+ - Produit 
+ - Fournisseur
+ - Lieu (de stockage)
+ ...
+
+**
+
+Stock  =>   E-Boutique
+
+Note: Schema représentant la communication entre les bounded context => domain event) Que se passe t il quand je change le nom du produit dans le stock ? dois je réellement être dépendant de l'e-boutique 
+
+**
+
+E-Boutique  => Stock
+
+Note: L'E-Boutique doit elle tomber si le stock tombe ?
 
 ***
 
-***
-Code d'un domain event : ProduitAcheteEvent
-(src/ProduitAcheteEvent.php)
-(Matérialiser les bounded contexts avec des namespace par ex, pour que ca soit plus visuel ?)
+# Eventual consistency
 
-***
-Code d'un listener de domain event : FacturationProduitAcheteListener
-(src/FacturationProduitAcheteListener.php)
+**
 
-***
-(Schema architecture avec message bus entre les bounded context)
-Le stock écoute le domain event ProduitAcheteEvent pour se mettre à jour, la facturation pour éditer la facture du client, etc
+Stock =  lance  =>  NomProduitModifiéDomainEvent
 
-***
+Note: Le stock envoi un domain event pour dire que le nom du produit a été
+modifié
+
+**
+
+E-Boutique  <=   ecoute = Stock domain event
+
+Note: L'E-Boutique ecoute le domain event et se mets à jour quand il le reçoit
+
+**
+Code d'un domain event : NomProduitModifiéDomainEvent
+
+**
+Code d'un listener de domain event : E-Boutique product
+
+**
 ### Avantages
 * faible couplages entre les bounded context
 * ajout de fonctionnalités sans changements dans le code existant
@@ -126,20 +166,18 @@ Le stock écoute le domain event ProduitAcheteEvent pour se mettre à jour, la f
 * scalabilité 
 
 ***
+## Avec un broker
 
-## Service de MQ
 * RabbitMQ
 * Kafka
 * ZeroMQ
+...
 
-***
-Qu'est-ce que c'est ?
+**
+### RabbitMQ
 
-***
-(Image représentant des Ops qui ne veulent pas gérer un RabittMQ)
+**
 
-***
-Schema d'une architecture très simple avec seulement 2 bounded contexts
 
 ***
 Domain Event sans MQ : c'est possible
