@@ -177,13 +177,73 @@ Code d'un listener de domain event : E-Boutique product
 ### RabbitMQ
 
 **
+ - exchange
+ - queue
+ - fanout
+ - channel
+ - virtual host
+ - cluster
+ - ...
+
+Note: peut etre en 2 slides pour plus de complexité
+
+**
+
+Pas envie de gérer tout ça
 
 
 ***
 Domain Event sans MQ : c'est possible
 
-***
-(Code de dispatch d'un Domain Event sans MQ)
+**
+##Un peu **event sourcing**
 
-***
-(Code de listener d'un Domain Event sans MQ)
+**
+
+##Stockage des events (synchrone)
+Note: Rappel de ce que c'est ?
+
+**
+
+##Tous les events sur votre entity
+
+Note: En effet, le but est de pouvoir reconstruire tout
+
+**
+
+## Comment utiliser ça dans les autres bounded context
+
+**
+
+## Api REST
+
+**
+
+```json
+{
+}
+```
+
+**
+##Pagination
+Note: Hateos ?
+
+**
+## Remember
+
+Note: La seule chose dont à besoin de se souvenir le bounded context client,
+c'est le dernier event traité
+
+**
+## Crontab
+
+**
+## Exemple boutique nom / produit
+
+**
+
+## Les + et les -
+
+**
+
+## Conclusion
