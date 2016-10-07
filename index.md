@@ -33,10 +33,10 @@ Architecte technique DSI Alptis
 Note: On est des tueurs bla bla bla
 
 ***
-## DDD : Domain Event
+## DDD & Domain Events
 
 ** 
-*(image bouquin Evans)*
+<img src="./img/images/livre-ddd.jpg" width="300" style="float: left;" />
 * Ubiquitous language
 * Bounded context
 * Model Driven Design
@@ -46,12 +46,11 @@ Note: On est des tueurs bla bla bla
 * Aggregates
 * Anti Corruption Layer
 
-
 Note: Quand on parle de DDD, très souvent, on cite la bible DDD mais pas de
 Domain Event dans la bible
 
 **
-*(image bouquin Vernon)*
+<img src="./img/images/implementing-ddd.jpg" width="300" style="float: left;" />
 * Ubiquitous language
 * Bounded context
 * Model Driven Design
@@ -67,20 +66,41 @@ et dans IDDD il nous parle des Domain Events
 
 **
 ### Domain Event : Kesako ?
+<img src="./img/images/what.png" />
 
 *Exemples de domain event*
 
-Note: Les domain events, ce sont tout les évenements métiers qui peuvent se
+Note: Les domain events, ce sont tous les évenements métiers qui peuvent se
 passer dans la vie de votre application
 **
 
-### Qu'est-ce qu'un Domain Event Techniquement
-* un message publié
-* représente un événement passé
-* lié à une transaction
-* asynchrone
+### Qu'est-ce qu'un Domain Event techniquement ?
 
 **
+<!-- .slide: data-background="./img/images/message-bouteille.jpg" -->
+###Un message publié <!-- .element: class="text-hover-image" -->
+
+**
+<!-- .slide: data-background="./img/images/back-to-the-future.jpg" -->
+###Représente un événement passé <!-- .element: class="text-hover-image" -->
+
+**
+###Lié à une transaction <!-- .element: class="text-hover-image" -->
+
+**
+<!-- .slide: data-background="./img/images/asynchrone.jpg" -->
+###Asynchrone <!-- .element: class="text-hover-image" -->
+
+**
+```php
+interface \DomainEventInterface
+{
+    public function getType();
+    public function getRootEntityId();
+    public function occurredOn();
+    public function getEventInformationsAsArray();
+}
+```
 *example de code (interface) d'un Event (root_id, occured_on)*
 
 **
@@ -99,9 +119,16 @@ Schema avec Tactical Pattern / Strategic Pattern avec le bounded context
 **
 
 Des environnements 
- - différents
- - isolés 
- - possédant leur propre Ubiquitous Language
+**
+Différents <!-- .element: class="text-hover-image" --> 
+
+**
+<!-- .slide: data-background="./img/images/isolated.jpg" -->
+Isolés <!-- .element: class="text-hover-image" -->
+
+**
+<!-- .slide: data-background="./img/images/coffee.jpg" -->
+Avec leur propre Ubiquitous Language <!-- .element: class="text-hover-image" -->
 
 **
 
@@ -158,12 +185,26 @@ Code d'un domain event : NomProduitModifiéDomainEvent
 Code d'un listener de domain event : E-Boutique product
 
 **
-### Avantages
-* faible couplages entre les bounded context
-* ajout de fonctionnalités sans changements dans le code existant
-* robuste
-* tolérence aux pannes
-* scalabilité 
+<!-- .slide: data-background="./img/images/avantages.jpg" -->
+## Avantages <!-- .element: class="text-hover-image" -->
+
+**
+Faible couplages entre les bounded context <!-- .element: class="text-hover-image" -->
+
+**
+Ajout de fonctionnalités sans changements dans le code existant <!-- .element: class="text-hover-image" -->
+
+**
+<!-- .slide: data-background="./img/images/robuste2.jpg" -->
+Robuste <!-- .element: class="text-hover-image" -->
+
+**
+<!-- .slide: data-background="./img/images/tolerance-pannes4.jpg" -->
+Tolérence aux pannes <!-- .element: class="text-hover-image" -->
+
+**
+<!-- .slide: data-background="./img/images/scalability.jpg" -->
+Scalabilité <!-- .element: class="text-hover-image" -->
 
 ***
 ## Avec un broker
@@ -177,6 +218,7 @@ Code d'un listener de domain event : E-Boutique product
 ### RabbitMQ
 
 **
+<img src="./img/images/rabbitmq-schema.png" width="600" style="float: left;" />
  - exchange
  - queue
  - fanout
@@ -188,12 +230,13 @@ Code d'un listener de domain event : E-Boutique product
 Note: peut etre en 2 slides pour plus de complexité
 
 **
-
-Pas envie de gérer tout ça
+<!-- .slide: data-background="./img/images/pieces-detachees-auto.jpg" -->
+Pas envie de gérer tout ça <!-- .element: class="text-hover-image" -->
 
 
 ***
-Domain Event sans MQ : c'est possible
+<!-- .slide: data-background="./img/images/possible.jpg" -->
+Domain Event sans Broker : c'est possible <!-- .element: class="text-hover-image" -->
 
 **
 ##Un peu **event sourcing**

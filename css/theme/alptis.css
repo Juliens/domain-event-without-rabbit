@@ -201,6 +201,11 @@ body {
 .reveal small * {
   vertical-align: top; }
 
+.reveal .text-hover-image {
+    background: black;
+    color: white;
+    opacity: 0.7; }
+
 /*********************************************
  * LINKS
  *********************************************/
