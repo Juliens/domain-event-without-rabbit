@@ -1,0 +1,9 @@
+intro : JS
+domain events : SD
+bounded context : JS
+eventual consistency : SD
+broker / rabbitmq : JS
+event sourcing : SD
+application bounded context / api : JS
+listener pour pouvoir facilment ajouter un broker : SD
+conclusion / questions : JS
