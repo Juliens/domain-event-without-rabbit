@@ -78,7 +78,7 @@ Note:
 - C'est seulement 10 ans plus tard que Vernon (2013) introduit les Domain Events dans son livre "Implementing Domain Driven Design", IDDD pour les intimes
 - Vous le connaissez celui-ci ? Qui l'a déjà lu ?
 - Je vous le recommande vraiment, parce qu'il est moins théorique, il y a beaucoup d'exemples concrets, avec du code.
-- Bon malheureusement ils sont ené java...
+- Bon malheureusement ils sont en java...
 
 **
 ### Domain Event : Kesako ?
@@ -169,6 +169,7 @@ Note: les gens se focalisent sur les * patterns (doctrine) et oublient les * pat
 
 Des environnements métiers
 **
+<!-- .slide: data-background="./img/images/separation.jpg" -->
 Différents <!-- .element: class="text-hover-image" --> 
 
 **
@@ -390,8 +391,8 @@ Note:
 - Grace au fonctionnement asynchrone reposant sur des events
 
 **
-<!-- .slide: data-background="./img/images/dragonball.jpg" -->
-Ajout de fonctionnalités sans changements dans le code existant <!-- .element: class="text-hover-image" -->
+<!-- .slide: data-background="./img/images/killer-feature2.jpg" -->
+BRAND NEW KILLER FEATURE ! <!-- .element: class="text-hover-image" -->
 Note: 
 - Enfin on peut facilement ajouter de nouvelles fonctionnalités sans impacter lourdement le code existant
 - ex: On peut facilement introduire un nouveau BC comme le transport
@@ -438,7 +439,8 @@ Publier des Domain Event sans Broker : c'est possible <!-- .element: class="text
 
 **
 ##Event sourcing
-Note: On va s'inspirer du pattern Event Sourcing (Photo de Jamie)
+<img src="./img/images/jamie.jpg" />
+Note: Et bien Julien, nous allons tout d'abord nous inspirer du pattern Event Sourcing
 
 **
 ###Principe de base
@@ -449,15 +451,15 @@ Note:
 - Concrètement, comment est-ce qu'on fait ?
 
 **
-###Events
-<!-- .slide: data-background="./img/images/" -->
+Capturer tous les changements d'état sous forme d'event <!-- .element: class="text-hover-image" -->
+<!-- .slide: data-background="./img/images/event.jpg" -->
 Note:
 - Tous les changements d'état de l'application sont capturés sous forme d'event
 - ex: UtilisateurAuthentifié, PaiementEffectué, etc
 
 **
-###Event Store
-<!-- .slide: data-background="./img/images/docteur-who.jpg" -->
+Enregistrer les events dans un Event Store <!-- .element: class="text-hover-image" -->
+<!-- .slide: data-background="./img/images/event-store.jpg" -->
 Note: 
 - Tous ces events sont stockés dans un EventStore
 - L'ordre des events est préservé
@@ -474,8 +476,15 @@ Note:
 - Et bien entendu on les persiste dans notre event store
 
 **
-##Et ou voulez vous en venir ?
+### Et ensuite ?...
+<img src="./img/images/sabine.jpg" />
 Note:
+- *Heu... ok, j'ai bien compris ce qu'était l'event sourcing, mais après ?*
+
+**
+### Les Domain Events à la rescousse !
+<img src="./img/images/fred.jpg" />
+Note: 
 - Ca vous rappelle rien ? 
 - Des events qui décrivent les changements d'une entité ?
 - Qu'on peut rejouer dans l'ordre pour reconstruire un état ?
