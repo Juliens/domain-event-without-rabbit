@@ -9,7 +9,7 @@
 - DDD
   - Domain Event
   - Bounded Context
-  - Eventual consistency
+  - Consistance des données
 - Broker
   - RabbitMQ
 - Alternative au broker
@@ -431,15 +431,15 @@ Note: implémente le pattern publishsubcribe, permet de gérer des events
 Complexité <!-- .element: class="text-hover-image" -->
 Note: Pas envie de gérer tout ça
 
-***
-<!-- SimonD -->
+**
 <!-- .slide: data-background="./img/images/possible.jpg" -->
 Publier des Domain Event sans Broker : c'est possible <!-- .element: class="text-hover-image" -->
 
-**
+<!-- SimonD -->
+***
 ##Event sourcing
 <img src="./img/images/jamie.jpg" />
-Note: Et bien Julien, nous allons tout d'abord nous inspirer du pattern Event Sourcing
+Note: Et bien Julien, nous allons nous appuyer sur le pattern Event Sourcing
 
 **
 ###Principe de base
@@ -475,13 +475,14 @@ Note:
 - Et bien entendu on les persiste dans notre event store
 
 **
-### Et ensuite ?...
+### Mais c'est quoi le rapport 
 <img src="./img/images/sabine.jpg" />
+### avec les Domain Events ?...
 Note:
 - *Heu... ok, j'ai bien compris ce qu'était l'event sourcing, mais après ?*
 
-**
-### Les Domain Events à la rescousse !
+***
+<!-- JulienS -->
 <img src="./img/images/fred.jpg" />
 Note: 
 - Ca vous rappelle rien ? 
@@ -489,8 +490,7 @@ Note:
 - Qu'on peut rejouer dans l'ordre pour reconstruire un état ?
 - C'est comme ça qu'on va synchroniser nos bounded contexts
 
-***
-<!-- JulienS -->
+**
 ## Api REST
 Note: 
 
