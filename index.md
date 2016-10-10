@@ -133,10 +133,6 @@ Note:
 - On ne peut pas réécrire l'histoire (sourir et regard vers le slide) ... quoi que...
 
 **
-###Idempotence
-Note: ???
-
-**
 ```php
 interface DomainEventInterface
 {
@@ -155,6 +151,9 @@ Note:
     - la date à laquelle s'est déroulé l'événement
     - les infos qui décrivent le changement
 - Pour terminer vous remarquerez qu'il n'y a que des getters => immutable
+
+**
+Conclusion DE
 
 ***
 
