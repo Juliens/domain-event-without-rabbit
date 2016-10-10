@@ -17,11 +17,16 @@
 Note: Nous allons donc vous parler de DDD et plus précisement etc...
 
 ***
-# Qui sommes nous ?
-
-**
 Julien Salleyron
-Architecte technique DSI Alptis
+
+@juguul
+
+https://github.com/juliens
+
+juliens@php.net
+
+<img src="./img/zce-php-engineer-logo-l.jpg" width="120" />
+
 Note: On est des tueurs bla bla bla
 
 **
@@ -138,7 +143,7 @@ interface DomainEventInterface
     public function getType();
     public function getRootEntityId();
     public function occurredOn();
-    public function getEventInformationsAsArray();
+    public function getEventInformations();
 }
 ```
 Note:
@@ -152,6 +157,8 @@ Note:
 - Pour terminer vous remarquerez qu'il n'y a que des getters => immutable
 
 ***
+
+<!-- JulienS -->
 
 ## Les Bounded Contexts
 
@@ -213,6 +220,7 @@ Note:
 - Maintenant qu'on a nos BC bien distincts, se pose la question de la consistance des données
 
 **
+<!-- (SimonD) -->
 ### Transactional Consistency
 <img src="./img/images/transactional-consistency.png">
 Note:
@@ -284,21 +292,11 @@ class NomProduitModifiéDomainEvent implements DomainEventInterface {
         ];
     }
 
-    public function getType() {
-        return $this->type;
-    }
-
-    public function getRootEntityId() {
-        return $this->rootEntityId;
-    }
-
-    public function occurredOn() {
-        return $this->occuredOn;
-    }
-
-    public function getEventInformationsAsArray() {
-        return $this->informations;
-    }
+    //Getters
+    public function getType() { return $this->type; }
+    public function getRootEntityId() { return $this->rootEntityId; }
+    public function occurredOn() { return $this->occuredOn; }
+    public function getEventInformations() { return $this->informations; }
 }
 ```
 Note:
@@ -347,7 +345,7 @@ class NomProduitModifiéListener implements DomainEventListenerInterface {
 
     public function handle(NomProduitModifiéDomainEvent $event) {
         // Met à jour l'entité Produit du Bounded Context E-boutique
-        $informations = $event->getEventInformationsAsArray();
+        $informations = $event->getEventInformations();
         $produit = $this->repository->get($event->getRootEntityId());
         $produit->changeNom($informations['nouveauNom']);
         $this->repository->save($produit);
@@ -402,6 +400,11 @@ Note:
 - Alors que la mise à jour de la fiche produit de l'e-boutique n'est pas impactée
 
 ***
+<!-- JulienS -->
+
+#Infrastructure
+
+**
 ## Broker
 
 * RabbitMQ
@@ -428,16 +431,14 @@ Note: implémente le pattern publishsubcribe, permet de gérer des events
 Complexité <!-- .element: class="text-hover-image" -->
 Note: Pas envie de gérer tout ça
 
-**
-Infrastructure
-
 ***
+<!-- SimonD -->
 <!-- .slide: data-background="./img/images/possible.jpg" -->
 Publier des Domain Event sans Broker : c'est possible <!-- .element: class="text-hover-image" -->
 
 **
 ##Event sourcing
-Note: On va s'inspirer du pattern Event Sourcing
+Note: On va s'inspirer du pattern Event Sourcing (Photo de Jamie)
 
 **
 ###Principe de base
@@ -473,14 +474,15 @@ Note:
 - Et bien entendu on les persiste dans notre event store
 
 **
-##Et la consistance des données dans nos autres bounded context dans tout ça ?
+##Et ou voulez vous en venir ?
 Note:
 - Ca vous rappelle rien ? 
 - Des events qui décrivent les changements d'une entité ?
 - Qu'on peut rejouer dans l'ordre pour reconstruire un état ?
 - C'est comme ça qu'on va synchroniser nos bounded contexts
 
-**
+***
+<!-- JulienS -->
 ## Api REST
 Note: 
 
@@ -506,14 +508,24 @@ c'est le dernier event traité
 Note: déclenchement d'un script
 
 **
-Conseil : Utiliser des listeners plutot qu'un batch pour pouvoir ajouter facilement un broker
-Schema sans broker
+
+Code de event sourcing
 
 **
-Schema avec broker
+
+Code de persistence event store
+
+**
+
+Code listener
+
+**
+
+Schéma Broker et Sans Broker
 
 
 ***
+<!-- Simond -->
 # Conclusion
 +++: moins compliqué, pas besoin d'un broker, tout l'historique dispo
 ---: synchro moins rapide => possible d'ajouter un broker plus tard
