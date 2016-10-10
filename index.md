@@ -1,6 +1,3 @@
-# FORUM PHP 2016
-**
-
 # PUBLIER DES DOMAIN EVENTS 
 
 **
@@ -28,15 +25,18 @@ Architecte technique DSI Alptis
 Note: On est des tueurs bla bla bla
 
 **
-Simon Delicata
-Lead développeur / Référent technique Alptis Assurance
+###Simon Delicata
+Lead développeur / Référent technique Alptis Assurances
 Note: On est des tueurs bla bla bla
 
-
 ***
+
 ## DDD & Domain Events
+Note: Pour commencer on va parler de DDD et des Domain Events
 
 ** 
+####Domain Driven Design : Tackling Complexity...
+<p style="clear: both;">*__Eric Evans__ (2003)*</p>
 <img src="./img/images/livre-ddd.jpg" width="300" style="float: left;" />
 * Ubiquitous language
 * Bounded context
@@ -47,10 +47,17 @@ Note: On est des tueurs bla bla bla
 * Aggregates
 * Anti Corruption Layer
 
-Note: Quand on parle de DDD, très souvent, on cite la bible DDD mais pas de
-Domain Event dans la bible, très théorique
+Note:
+- Quand on parle de DDD, on pense tout de suite au livre d'Eric Evans (2003)
+- Tout le monde a déjà entendu parlé de ce livre ? Ok. Tiens, et qui l'a lu parmis vous ?
+- C'est vraiment un incoutournable, on le considère comme la bible du DDD
+- Alors il est très théorique
+- Mais il a le mérite d'aborder tous les concepts de base <!-- comme l'ubiquitous language, les bounded context, l'architecture hexagonale, des mots qui parlent aux PHPistes tels que entities, repositories, etc. -->
+- Par contre, dans ce livre, __il n'y a pas de notion de Domain Event__
 
 **
+####Implementing Domain Driven Design
+<p style="clear: both;">*__Vaughn Vernon__ (2013)*</p>
 <img src="./img/images/implementing-ddd.jpg" width="300" style="float: left;" />
 * Ubiquitous language
 * Bounded context
@@ -62,41 +69,71 @@ Domain Event dans la bible, très théorique
 * Anti Corruption Layer
 * **Domain Events**
 
-Note: En fait, quand on parle de DDD, un livre important est celui de Vernon,
-et dans IDDD : moins théorique, ex de code, ajout des Domain Events
+Note: 
+- C'est seulement 10 ans plus tard que Vernon (2013) introduit les Domain Events dans son livre "Implementing Domain Driven Design", IDDD pour les intimes
+- Vous le connaissez celui-ci ? Qui l'a déjà lu ?
+- Je vous le recommande vraiment, parce qu'il est moins théorique, il y a beaucoup d'exemples concrets, avec du code.
+- Bon malheureusement ils sont ené java...
 
 **
 ### Domain Event : Kesako ?
 <img src="./img/images/what.png" />
 
-*Exemples de domain event orienté métier*
-
-Note: Les domain events, ce sont tous les évenements métiers qui peuvent se
-passer dans la vie de votre application
-ex : client change d'adresse, change de sexe, etc
+Note: 
+- Alors un Domain Event qu'est-ce que c'est ?
+- Un Domain Event représente tout simplement un évenement __métier__ qui peut se passer dans la vie de notre application
+- ex : l'utilisateur s'est authentifié, le client a changé d'adresse, l'article a été publié, etc
+- Donc techniquement, un DE...
 **
 
 <!-- .slide: data-background="./img/images/message-bouteille.jpg" -->
 ###Un message publié <!-- .element: class="text-hover-image" -->
-Note: on publie le message sans se pré-ocupper de qui va le recevoir
+Note:
+- C'est un message qu'on va __publier__
+- L'image du slide est bien choisi, parce qu'on va le publier sans se préocupper de qui va le recevoir, ou pas d'ailleurs
+- C'est un détail qui a son importance, on le vera plus tard
 
 **
-<!-- .slide: data-background="./img/images/back-to-the-future.jpg" -->
 ###Représente un événement passé et daté <!-- .element: class="text-hover-image" -->
-Note: passé, daté : ordre important
+<!-- .slide: data-background="./img/images/past2.jpg" -->
+Note:
+- Notre message représente un événement métier qui s'est déroulé __dans le passé__
+- C'est très important, il ne faut pas le confondre avec une commande
+- La commande va déclencher une action, alors que le DE est plutôt la résultante de cette action
+- Il a déjà eu lieu à un moment précis et on doit savoir exactement quand
 
 **
 ###Lié à une entité ou un aggrégat <!-- .element: class="text-hover-image" -->
-Note: concerne toujours une entité. ex: personne change de nom
+<!-- .slide: data-background="./img/images/entity2.jpg" -->
+Note:
+- Notre Domain Event concerne toujours une entité de notre domaine, ou encore un aggrégat
+- ex: un utilisateur a changé de mot de passe, un produit a été acheté ou en encore un post a été publié sur le forum, 
+- Vous avez compris l'idée ?
 
 **
-<!-- .slide: data-background="./img/images/asynchrone.jpg" -->
 ###Contient les informations de l'évenement métier<!-- .element: class="text-hover-image" -->
-Note: changement adresse => ancienne et nouvelle adresse
+<!-- .slide: data-background="./img/images/information.jpg" -->
+Note:
+- Il contient toutes les informations qui décrivent un changement d'état de notre entité
+- ex: un client a changé d'adresse => l'id du client, mais aussi sa nouvelle adresse, et pourquoi pas l'ancienne
+- ex: post sur le forum => l'id du post qui vient d'être publié, id de l'auteur, l'id de la catégorie et pourquoi pas celui du post parent
+
+**
+<!-- .slide: data-background="./img/images/back-to-the-future.jpg" -->
+###Immutable<!-- .element: class="text-hover-image" -->
+Note:
+- Un Domain Event est par essence immutable
+- C'est un objet dont l'état ne peut pas être modifié après sa création
+- Ca semble logique étant donné qu'il représente un événement __passé__
+- On ne peut pas réécrire l'histoire (sourir et regard vers le slide) ... quoi que...
+
+**
+###Idempotence
+Note: ???
 
 **
 ```php
-interface \DomainEventInterface
+interface DomainEventInterface
 {
     public function getType();
     public function getRootEntityId();
@@ -104,9 +141,18 @@ interface \DomainEventInterface
     public function getEventInformationsAsArray();
 }
 ```
-Note: example de code (interface) d'un Event (root_id, occured_on)
+Note:
+- Alors voici un example de code représentant un Domain Event
+- Il s'agit d'une interface
+- Et le contrat nous dit qu'il doit être capable de retourner :
+    - un type (pour pouvoir être filtré)
+    - l'identifiant de l'entité concernée
+    - la date à laquelle s'est déroulé l'événement
+    - les infos qui décrivent le changement
+- Pour terminer vous remarquerez qu'il n'y a que des getters => immutable
 
-**
+***
+
 ## Les Bounded Contexts
 
 **
@@ -162,54 +208,198 @@ Note: L'E-Boutique doit elle tomber si le stock tombe ?
 
 ***
 
-# Eventual consistency
-Note: les données ne sont pas consitantes entre les bounded contexts / désynchronise
-**
-
-Stock =  lance  =>  NomProduitModifiéDomainEvent
-
-Note: Le stock envoi un domain event pour dire que le nom du produit a été
-modifié
+## Consistance des données
+Note: 
+- Maintenant qu'on a nos BC bien distincts, se pose la question de la consistance des données
 
 **
-
-E-Boutique  <=   ecoute = Stock domain event
-
-Note: L'E-Boutique ecoute le domain event et se mets à jour quand il le reçoit
-Faible couplage
-
-**
-Code d'un domain event : NomProduitModifiéDomainEvent
+### Transactional Consistency
+<img src="./img/images/transactional-consistency.png">
+Note:
+- Traditionnellement les applications étaient conçues sur des workflows transactionnels
+- La plupart du temps les développeurs executent une commande, puis réalisent toutes les opérations pour maintenir le système consistant dans la même transaction
+- ex: Un client paie une commande => on envoie un mail de confirmation, on déclenche la préparation de commande, on met à jour le stock, etc
 
 **
-Code d'un listener de domain event : E-Boutique product
+<!-- .slide: data-background="./img/images/server-down2.jpg" -->
+Server Down<!-- .element: class="text-hover-image" -->
+Note: 
+- Qu'est ce qu'il se passe si le serveur d'envoi de mail est down ?
+- Est-ce que la commande a quand même bien été validée ?
+- L'email de confirmation est-il perdu ? Va t-il être renvoyé une fois la panne résolue ?
+
+**
+<!-- .slide: data-background="./img/images/bad-ux4.jpg" -->
+Bad ux  :(<!-- .element: class="text-hover-image" -->
+Note:
+- Le client, lui, n'attend qu'un simple message de confirmation
+- Est-ce que ça a du sens qu'il attende devant son écran jusqu'à ce que la préparation de la commande ait commencée ?
+- Pas terrible comme expérience utilisateur...
+
+**
+### Eventual Consistency
+<img src="./img/images/eventual-consistency.png" />
+Note:
+- Dans un worklow éventuellement consistant, on accèpte l'idée que les BC ne soient pas toujours synchronisés
+- On tolère une certaine latence
+- Une transaction déclenchera __seulement__ les opérations nécessaires à maintenir la consistance des données au sein de notre aggrégat, ou de notre BC
+- Mais alors comment est-ce qu'on fait pour le reste des opérations ?
+
+**
+<!-- .slide: data-background="./img/images/rescousse.jpg" -->
+### Les Domain Events à la rescousse ! <!-- .element: class="text-hover-image" -->
+Note: 
+- Vous l'aurez certainement compris, c'est à ce moment que les Domain Events interviennent
+
+**
+### Les Domain Events à la rescousse !
+<img src="./img/images/eventual-consistency-with-domain-events.png" />
+Note: 
+- ex précédent : on va seulement enregistrer la commande, publier un Domain Event et afficher un message de confirmation au client
+- Le DE sert de trigger pour déclencher la suite des opérations, qui seront executées __plus tard__, lorsque chaque BC se sera mis à jour
+- On peut avoir une latence de quelques secondes à plusieurs minutes
+- Chacun des BC va avoir sa propre fréquence de synchronisation, sa manière de traiter un même DE
+- ex: Peut-être que le BC d'emailing va envoyer immédiatement l'email de confirmation
+- Alors que le BC de logistique va attendre de recevoir 10 commandes avant déclencher un traitement auprès d'un préparateur de commande
+
+**
+### Un peu de code
+Note: 
+- Un peu de code maintenant, n va prendre un exemple très simple
+- Le nom d'un produit change dans le BC du stock et publie un DE
+- L'e-boutique écoute ce DE pour mettre à jour sa fiche produit
+
+**
+Exemple d'un domain event
+```php
+class NomProduitModifiéDomainEvent implements DomainEventInterface {
+    
+    public function __construct($produitId, $ancienNom, $nouveauNom) {
+        $this->type = 'produit.nom.modifié';
+        $this->rootEntityId = $produitId;
+        $this->occuredOn = new \DateTime();
+        $this->informations = [
+            'ancienNom' => $ancienNom,
+            'nouveauNom' => $nouveauNom
+        ];
+    }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    public function getRootEntityId() {
+        return $this->rootEntityId;
+    }
+
+    public function occurredOn() {
+        return $this->occuredOn;
+    }
+
+    public function getEventInformationsAsArray() {
+        return $this->informations;
+    }
+}
+```
+Note:
+- Exemple d'un DE représentant le changement de nom d'un produit
+- Il implémente notre interface de tout à l'heure :
+    - un type => permet à BC de filtrer les DE, et déterminer s'il doit écouter ou non ce DE-ci
+    - l'identifiant de l'entité concernée => notre produit
+    - la date à laquelle s'est déroulé l'événement 
+    - les informations qui décrivent le changement => ancien et nouveau nom
+
+**
+Dispatch depuis le stock
+```php
+namespace Stock\Entity;
+
+class Produit {
+
+    private $nom;
+
+    public function changeNom($nouveauNom) {
+        $ancienNom = $this->nom;
+        $this->nom = $nouveauNom;
+        $this->dispatch(new NomProduitModifiéDomainEvent(
+            $this->getId(),
+            $ancienNom,
+            $nouveauNom
+        ));
+    }
+}
+```
+Note: 
+- Lorsque le nom d'un produit change dans le BC stock (namespace), on envoie un DE pour informer le reste du système
+- C'est important de noter que c'est bien l'__entité__ elle même qui publie le DE
+- On est bien dans notre couche domaine
+
+**
+Listener de l'e-boutique
+```php
+namespace Eboutique\Listener;
+
+class NomProduitModifiéListener implements DomainEventListenerInterface {
+
+    public function __construct(EntityRepository $repository) {
+        $this->repository = $repository;
+    }
+
+    public function handle(NomProduitModifiéDomainEvent $event) {
+        // Met à jour l'entité Produit du Bounded Context E-boutique
+        $informations = $event->getEventInformationsAsArray();
+        $produit = $this->repository->get($event->getRootEntityId());
+        $produit->changeNom($informations['nouveauNom']);
+        $this->repository->save($produit);
+    }
+}
+```
+Note:
+- Du son côté l'e-boutique va écouter le DE de changement du nom d'un produit publié depuis le stock
+- Elle met à jour son propre référentiel produit
+- Attention, il s'agit bien de l'entité Produit dans le BC de l'e-boutique
 
 **
 <!-- .slide: data-background="./img/images/avantages.jpg" -->
 ## Avantages <!-- .element: class="text-hover-image" -->
+Note: Cette architecture présente plusieurs avantages
 
 **
-Couplage faible entre les bounded context <!-- .element: class="text-hover-image" -->
-Note: ex coupure du stock
-
-**
-Ajout de fonctionnalités sans changements dans le code existant <!-- .element: class="text-hover-image" -->
-Note: nouveau bounded context : suivi du transport a besoin de connaître un changement de poids => rien à modifier dans le stock, il suffit de s'abonner
+<!-- .slide: data-background="./img/images/good-ux.jpg" -->
+Meilleure expérience utilisateur <!-- .element: class="text-hover-image" -->
+Note: On favorise une meilleur expérience utilisateur, comme on l'a vu précédemment
 
 **
 <!-- .slide: data-background="./img/images/robuste2.jpg" -->
 Robuste <!-- .element: class="text-hover-image" -->
-Note: robuste parce que...
+Note: 
+- Comme on respecte bien le principe de couplage faible entre les BC
+- Notre application est plus robuste puisqu'on est maintenant ...
 
 **
 <!-- .slide: data-background="./img/images/tolerance-pannes4.jpg" -->
 Tolérant aux pannes <!-- .element: class="text-hover-image" -->
-Note: ... tolérent aux pannes
+Note:
+- ... tolérant aux pannes
+- En effet si le stock tombe, l'e-boutique n'a pas besoin du stock pour fonctionner
+- Et vice versa
 
 **
 <!-- .slide: data-background="./img/images/scalability.jpg" -->
 Scalabilité <!-- .element: class="text-hover-image" -->
-Note: Ouvrir la porte à la scalabilité de part le fonctionnement avec des events
+Note:
+- On ouvrir également la porte à la scalabilité et à la performance
+- Grace au fonctionnement asynchrone reposant sur des events
+
+**
+<!-- .slide: data-background="./img/images/dragonball.jpg" -->
+Ajout de fonctionnalités sans changements dans le code existant <!-- .element: class="text-hover-image" -->
+Note: 
+- Enfin on peut facilement ajouter de nouvelles fonctionnalités sans impacter lourdement le code existant
+- ex: On peut facilement introduire un nouveau BC comme le transport
+- Le transporteur pourrait avoir besoin de connaître le changement de poids d'un produit pour impacter le prix des frais de port
+- Si le stock publie déjà un DE de changement de poids d'un produit, alors il suffit de s'abonner
+- Alors que la mise à jour de la fiche produit de l'e-boutique n'est pas impactée
 
 ***
 ## Broker
@@ -243,23 +433,52 @@ Infrastructure
 
 ***
 <!-- .slide: data-background="./img/images/possible.jpg" -->
-Domain Event sans Broker : c'est possible <!-- .element: class="text-hover-image" -->
+Publier des Domain Event sans Broker : c'est possible <!-- .element: class="text-hover-image" -->
 
 **
 ##Event sourcing
-Note: on s'inspire du pattern l'event sourcing
+Note: On va s'inspirer du pattern Event Sourcing
 
 **
-##Stockage des events (synchrone)
-Note: Enregistre tous les events liés à la transaction, tout le temps
+###Principe de base
+Stocker toutes les modifications du système, plutôt que seulement son état actuel
+Note: 
+- Principe de base : on stocke toutes les modifications du système, plutot que seulement son état actuel
+- On utilise l'histoire d'un objet pour recréer son état
+- Concrètement, comment est-ce qu'on fait ?
 
 **
-##Tous les events sur votre entity
-Note: Pour pouvoir reconstruire l'état de l'entité
+###Events
+<!-- .slide: data-background="./img/images/" -->
+Note:
+- Tous les changements d'état de l'application sont capturés sous forme d'event
+- ex: UtilisateurAuthentifié, PaiementEffectué, etc
 
 **
-##Comment utiliser ça dans les autres bounded context
-Note: Ca vous rappelle rien, des events qui décrivent le changement d'une entité ? Qu'on peut rejouer dans l'ordre pour reconstruire un état ? C'est comme ça qu'on va synchroniser nos bounded contexts
+###Event Store
+<!-- .slide: data-background="./img/images/docteur-who.jpg" -->
+Note: 
+- Tous ces events sont stockés dans un EventStore
+- L'ordre des events est préservé
+- De manière à pouvoir reconstruire l'état de l'entité ou de l'aggrégat
+- La structure même des différents events de notre application pouvant être radicalement différent, utiliser une base noSQL comme MongoDB, par ex, est parfaitement adaptée
+
+**
+Exemple d'architecture
+<img src="./img/images/event-sourcing-schema.png" />
+Note: 
+- Reprenons l'exemple dans notre e-boutique
+- Depuis la couche présentation on enregistre toutes les actions de l'utilisateur
+- ex: panier créé, produit 1 ajouté au panier, produit 2, informations d'expédition ajoutées, etc
+- Et bien entendu on les persiste dans notre event store
+
+**
+##Et la consistance des données dans nos autres bounded context dans tout ça ?
+Note:
+- Ca vous rappelle rien ? 
+- Des events qui décrivent les changements d'une entité ?
+- Qu'on peut rejouer dans l'ordre pour reconstruire un état ?
+- C'est comme ça qu'on va synchroniser nos bounded contexts
 
 **
 ## Api REST
