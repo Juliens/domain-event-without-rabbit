@@ -29,17 +29,33 @@ code mark {
 }
 
 .bg-left .slide-background.present {
-	background-position-x: left;
+	background-position: left center;
 }
 
 .bg-right .slide-background.present {
-	background-position-x: right;
+	background-position: right center;
 }
 
 .bg-top .slide-background.present {
-	background-position-y: top;
+	background-position: center top;
 }
 
 .bg-bottom .slide-background.present {
-	background-position-y: bottom;
+	background-position: center bottom;
+}
+
+.bg-left-top.slide-background.present {
+	background-position: left top;
+}
+
+.bg-right-top .slide-background.present {
+	background-position: right top;
+}
+
+.bg-left-bottom .slide-background.present {
+	background-position: left bottom;
+}
+
+.bg-right-bottom .slide-background.present {
+	background-position: right bottom;
 }
