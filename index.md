@@ -39,6 +39,8 @@ Lead développeur / Référent technique Alptis Assurances
 s.delicata@alptis.fr
 
 http://www.afterglow.fr
+
+<img src="./img/images/simon.jpg" height="500" />
 Note:
 - Bonjour à tous, je Simon Delicata, je suis lead developpeur et référent technique du pole web d'Alptis Assurances
 - Dans une autre vie je suis également chanteur/guitariste d'un groupe de rock alternatif qui s'appelle AFTERGLOW
