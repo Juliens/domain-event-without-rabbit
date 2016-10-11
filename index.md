@@ -1,8 +1,10 @@
-# PUBLIER DES DOMAIN EVENTS
+# PUBLIER DES
+# DOMAIN EVENTS
 
 **
 
-# SANS RABBITMQ, C’EST POSSIBLE !
+# SANS RABBITMQ,
+# C’EST POSSIBLE !
 
 **
 
@@ -17,7 +19,7 @@
 Note: Nous allons donc vous parler de DDD et plus précisement etc...
 
 ***
-Julien Salleyron
+###Julien Salleyron
 
 <img src="./img/juliens.png" width="120" />
 
@@ -34,13 +36,14 @@ Note: On est des tueurs bla bla bla
 **
 ###Simon Delicata
 
-Lead développeur / Référent technique Alptis Assurances
+Lead développeur / Référent technique 
+<br />_Alptis Assurances_
 
 s.delicata@alptis.fr
 
 http://www.afterglow.fr
 
-<img src="./img/images/simon.jpg" height="500" />
+<img src="./img/images/simon.jpg" height="300" />
 Note:
 - Bonjour à tous, je Simon Delicata, je suis lead developpeur et référent technique du pole web d'Alptis Assurances
 - Dans une autre vie je suis également chanteur/guitariste d'un groupe de rock alternatif qui s'appelle AFTERGLOW
@@ -51,8 +54,9 @@ Note:
 Note: Pour commencer on va parler de DDD et des Domain Events
 
 ** 
-####Domain Driven Design : Tackling Complexity...
-<p style="clear: both;">*__Eric Evans__ (2003)*</p>
+###Domain Driven Design : Tackling Complexity...
+*Eric Evans (2003)*
+<div style="clear: both;"></div>
 <img src="./img/images/livre-ddd.jpg" width="300" style="float: left;" />
 * Ubiquitous language
 * Bounded context
@@ -72,8 +76,9 @@ Note:
 - Par contre, dans ce livre, __il n'y a pas de notion de Domain Event__
 
 **
-####Implementing Domain Driven Design
-<p style="clear: both;">*__Vaughn Vernon__ (2013)*</p>
+###Implementing Domain Driven Design
+*Vaughn Vernon (2013)*
+<div style="clear: both;"></div>
 <img src="./img/images/implementing-ddd.jpg" width="300" style="float: left;" />
 * Ubiquitous language
 * Bounded context
@@ -102,7 +107,7 @@ Note:
 - Donc techniquement, un DE...
 **
 
-<!-- .slide: data-background="./img/images/message-bouteille.jpg" -->
+<!-- .slide: data-background="./img/images/message-bouteille.jpg" class="align-top" -->
 ###Un message publié <!-- .element: class="text-hover-image" -->
 Note:
 - C'est un message qu'on va __publier__
@@ -110,8 +115,8 @@ Note:
 - C'est un détail qui a son importance, on le vera plus tard
 
 **
-###Représente un événement passé et daté <!-- .element: class="text-hover-image" -->
 <!-- .slide: data-background="./img/images/past2.jpg" -->
+###Représente un événement passé et daté <!-- .element: class="text-hover-image" -->
 Note:
 - Notre message représente un événement métier qui s'est déroulé __dans le passé__
 - C'est très important, il ne faut pas le confondre avec une commande
@@ -119,23 +124,23 @@ Note:
 - Il a déjà eu lieu à un moment précis et on doit savoir exactement quand
 
 **
-###Lié à une entité ou un aggrégat <!-- .element: class="text-hover-image" -->
 <!-- .slide: data-background="./img/images/entity2.jpg" -->
+###Lié à une entité ou un aggrégat <!-- .element: class="text-hover-image" -->
 Note:
 - Notre Domain Event concerne toujours une entité de notre domaine, ou encore un aggrégat
 - ex: un utilisateur a changé de mot de passe, un produit a été acheté ou encore un post a été publié sur le forum, 
 - Vous avez compris l'idée ?
 
 **
-###Contient les informations de l'évenement métier<!-- .element: class="text-hover-image" -->
 <!-- .slide: data-background="./img/images/information.jpg" -->
+###Contient les informations de l'évenement métier<!-- .element: class="text-hover-image" -->
 Note:
 - Il contient toutes les informations qui décrivent un changement d'état de notre entité
 - ex: un client a changé d'adresse => l'id du client, mais aussi sa nouvelle adresse, et pourquoi pas l'ancienne
 - ex: post sur le forum => l'id du post qui vient d'être publié, id de l'auteur, l'id de la catégorie et pourquoi pas celui du post parent
 
 **
-<!-- .slide: data-background="./img/images/back-to-the-future.jpg" -->
+<!-- .slide: data-background="./img/images/back-to-the-future.jpg" class="align-top" -->
 ###Immutable<!-- .element: class="text-hover-image" -->
 Note:
 - Un Domain Event est par essence immutable
@@ -150,7 +155,7 @@ interface DomainEventInterface
     public function getType();
     public function getRootEntityId();
     public function occurredOn();
-    public function getEventInformations();
+    public function getInformations();
 }
 ```
 Note:
@@ -264,7 +269,7 @@ Note:
 
 **
 <!-- .slide: data-background="./img/images/server-down2.jpg" -->
-Server Down<!-- .element: class="text-hover-image" -->
+### Server Down<!-- .element: class="text-hover-image" -->
 Note: 
 - Qu'est ce qu'il se passe si le serveur d'envoi de mail est down ?
 - Est-ce que la commande a quand même bien été validée ?
@@ -272,7 +277,7 @@ Note:
 
 **
 <!-- .slide: data-background="./img/images/bad-ux4.jpg" -->
-Bad ux  :(<!-- .element: class="text-hover-image" -->
+### Bad ux  :(<!-- .element: class="text-hover-image" -->
 Note:
 - Le client, lui, n'attend qu'un simple message de confirmation
 - Est-ce que ça a du sens qu'il attende devant son écran jusqu'à ce que la préparation de la commande ait commencée ?
@@ -288,7 +293,7 @@ Note:
 - Mais alors comment est-ce qu'on fait pour le reste des opérations ?
 
 **
-<!-- .slide: data-background="./img/images/rescousse.jpg" -->
+<!-- .slide: data-background="./img/images/rescousse.jpg" class="align-top" -->
 ### Les Domain Events à la rescousse ! <!-- .element: class="text-hover-image" -->
 Note: 
 - Vous l'aurez certainement compris, c'est à ce moment que les Domain Events entrent en action
@@ -306,7 +311,7 @@ Note:
 
 **
 ### Un peu de code
-<img src="./img/images/chloe.jpg" />
+<img src="./img/images/chloe.jpg" height="500" />
 Note: 
 - Un peu de code maintenant, on va prendre un exemple très simple
 - Le nom d'un produit change dans le BC du stock et publie un DE
@@ -327,11 +332,10 @@ class NomProduitModifiéDomainEvent implements DomainEventInterface {
         ];
     }
 
-    //Getters
     public function getType() { return $this->type; }
     public function getRootEntityId() { return $this->rootEntityId; }
     public function occurredOn() { return $this->occuredOn; }
-    public function getEventInformations() { return $this->informations; }
+    public function getInformations() { return $this->informations; }
 }
 ```
 Note:
@@ -372,7 +376,7 @@ Listener de l'e-boutique
 ```php
 namespace Eboutique\Listener;
 
-class NomProduitModifiéListener implements DomainEventListenerInterface {
+class NomProduitModifiéListener {
 
     public function __construct(EntityRepository $repository) {
         $this->repository = $repository;
@@ -380,7 +384,7 @@ class NomProduitModifiéListener implements DomainEventListenerInterface {
 
     public function handle(NomProduitModifiéDomainEvent $event) {
         // Met à jour l'entité Produit du Bounded Context E-boutique
-        $informations = $event->getEventInformations();
+        $informations = $event->getInformations();
         $produit = $this->repository->get($event->getRootEntityId());
         $produit->changeNom($informations['nouveauNom']);
         $this->repository->save($produit);
@@ -393,25 +397,25 @@ Note:
 - Attention, il s'agit bien de l'entité Produit dans le BC de l'e-boutique
 
 **
-<!-- .slide: data-background="./img/images/avantages.jpg" -->
+<!-- .slide: data-background="./img/images/avantages.jpg" class="align-top" -->
 ## Avantages <!-- .element: class="text-hover-image" -->
 Note: Cette architecture présente plusieurs avantages
 
 **
 <!-- .slide: data-background="./img/images/good-ux.jpg" -->
-Meilleure expérience utilisateur <!-- .element: class="text-hover-image" -->
+### Meilleure expérience utilisateur <!-- .element: class="text-hover-image" -->
 Note: On favorise une meilleur expérience utilisateur, comme on l'a vu précédemment
 
 **
 <!-- .slide: data-background="./img/images/robuste2.jpg", data-state="bg-top" -->
-Robuste <!-- .element: class="text-hover-image" -->
+### Robuste <!-- .element: class="text-hover-image" -->
 Note: 
 - Comme on respecte bien le principe de couplage faible entre les BC
 - Notre application est plus robuste puisqu'on est maintenant ...
 
 **
 <!-- .slide: data-background="./img/images/tolerance-pannes4.jpg", data-state="bg-left" -->
-Tolérant aux pannes <!-- .element: class="text-hover-image" -->
+### Tolérant aux pannes <!-- .element: class="text-hover-image" -->
 Note:
 - ... tolérant aux pannes
 - En effet si le stock tombe, ou que le serveur d'emailing est mort
@@ -420,14 +424,14 @@ Note:
 
 **
 <!-- .slide: data-background="./img/images/scalability.jpg" -->
-Scalabilité <!-- .element: class="text-hover-image" -->
+### Scalabilité <!-- .element: class="text-hover-image" -->
 Note:
 - On ouvrir également la porte à la scalabilité
 - Grace au fonctionnement asynchrone reposant sur des events
 
 **
 <!-- .slide: data-background="./img/images/killer-feature2.jpg" -->
-BRAND NEW KILLER FEATURE ! <!-- .element: class="text-hover-image" -->
+### BRAND NEW KILLER FEATURE ! <!-- .element: class="text-hover-image" -->
 Note: 
 - Enfin on peut facilement ajouter de nouvelles fonctionnalités sans impacter lourdement le code existant
 - ex: On peut facilement introduire un nouveau BC comme le transport
@@ -438,7 +442,7 @@ Note:
 ***
 <!-- JulienS -->
 
-<!-- .slide: data-background="./img/infrastructure.jpg" -->
+<!-- .slide: data-background="./img/infrastructure.jpg" class="align-top" -->
 
 ###Infrastructure <!-- .element: class="text-hover-image" -->
 
@@ -484,7 +488,8 @@ Note: Pas envie de gérer tout ça
 
 **
 <!-- .slide: data-background="./img/images/possible.jpg" -->
-Publier des Domain Event sans Broker : c'est possible <!-- .element: class="text-hover-image" -->
+Publier des Domain Event sans Broker :
+<br /> c'est possible <!-- .element: class="text-hover-image" -->
 
 <!-- SimonD -->
 ***
@@ -501,15 +506,15 @@ Note:
 - Concrètement, comment est-ce qu'on fait ?
 
 **
-Capturer tous les changements d'état sous forme d'event <!-- .element: class="text-hover-image" -->
 <!-- .slide: data-background="./img/images/event.jpg" -->
+###Capturer les changements d'état sous forme d'event <!-- .element: class="text-hover-image" -->
 Note:
 - Tous les changements d'état de l'application sont capturés sous forme d'event
 - ex: UtilisateurAuthentifié, ProduitAjoutéAuPanier, PaiementEffectué, etc
 
 **
-Enregistrer les events dans un Event Store <!-- .element: class="text-hover-image" -->
 <!-- .slide: data-background="./img/images/event-store.jpg" -->
+###Enregistrer les events dans un Event Store <!-- .element: class="text-hover-image" -->
 Note: 
 - Tous ces events sont stockés dans un EventStore
 - L'ordre des events est préservé
@@ -517,7 +522,7 @@ Note:
 - La structure même des différents events de notre application pouvant être radicalement différent, utiliser une base noSQL comme MongoDB, par ex, est parfaitement adaptée
 
 **
-Exemple d'architecture
+###Exemple d'architecture
 <img src="./img/images/event-sourcing-schema.png" />
 Note: 
 - Reprenons l'exemple dans notre e-boutique
@@ -526,9 +531,9 @@ Note:
 - Et bien entendu on les persiste dans notre event store
 
 **
-### Mais c'est quoi le rapport 
-<img src="./img/images/sabine.jpg" />
-### avec les Domain Events ?...
+<img src="./img/images/sabine.jpg" height="400" />
+
+Mais c'est quoi le rapport avec les Domain Events ?...
 Note:
 - *Heu... ok, j'ai bien compris ce qu'était l'event sourcing, mais après ?*
 
