@@ -354,3 +354,8 @@ body {
   top: 20px;
   left: 20px;
   z-index: 101; }
+
+.reveal .backgrounds {
+  top: 35px;
+  bottom: 0;
+  height: auto; }

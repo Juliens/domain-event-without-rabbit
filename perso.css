@@ -22,3 +22,19 @@ code mark {
 .align-right {
 	text-align: right !important;
 }
+
+.bg-left .slide-background.present {
+	background-position-x: left;
+}
+
+.bg-right .slide-background.present {
+	background-position-x: right;
+}
+
+.bg-top .slide-background.present {
+	background-position-y: top;
+}
+
+.bg-bottom .slide-background.present {
+	background-position-y: bottom;
+}
