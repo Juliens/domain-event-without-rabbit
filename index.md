@@ -1,4 +1,4 @@
-# PUBLIER DES DOMAIN EVENTS 
+# PUBLIER DES DOMAIN EVENTS
 
 **
 
@@ -445,8 +445,7 @@ Note:
 ###Infrastructure <!-- .element: class="text-hover-image" -->
 
 **
-<!-- .slide: data-background="./img/broker.jpg" -->
-
+<!-- .slide: data-background="./img/broker.jpg", class="align-bottom align-top align-left" -->
 <div class="text-hover-image">
 * RabbitMQ
 * Kafka
