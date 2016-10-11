@@ -614,11 +614,11 @@ Schéma Broker et Sans Broker
 <!-- Simond -->
 # Conclusion
 Note: 
-- En conclusion, on a vu qu'on pouvait gérer la consistance des données entre nos BC sans broker 
-- Ca nous évite de mettre en place une infrastructure et de complexifier notre code
-- Par contre il faut avoir conscience que la synchro sera moins rapide qu'avec un broker (quasi instantané)
-- On ne peut pas mettre un crontab toutes les secondes
-- L'avantage de cette solution, c'est qu'elle permet d'ajouter facilement un broker par la suite
+- En conclusion, on a vu qu'on pouvait gérer la CDD sans broker 
+- Evite une infrastructure couteuse, pas forcement évidente à maintenir, et de complexifier notre code
+- Par contre il faut avoir conscience que la synchro sera moins rapide qu'avec un broker (quasi instantané vs crontab toutes les sec.)
+- La solution qu'on vous a présenté ne s'adapte pas à toutes les situations.
+- Mais elle a le mérite d'être évolutive, qu'elle vous permet d'ajouter facilement un broker à votre SI par la suite
 
 ***
 # Questions ?
