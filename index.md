@@ -163,9 +163,6 @@ Note:
     - les infos qui décrivent le changement
 - Pour terminer vous remarquerez qu'il n'y a que des getters => immutable
 
-**
-Rappel sommaire => enchainement
-
 ***
 
 <!-- JulienS -->
@@ -193,6 +190,7 @@ patterns qui sont plus ou moins implémenté dans Doctrine
 ##Pattern stratégique
 - Bounded Context
 - ACL
+- Ubiquitous Language
 - ...
 
 Note: Et voici des patterns stratégiques. Ici on voit le Bounded Context
@@ -591,6 +589,9 @@ Note: déclenchement d'un script
 
 Code de event sourcing
 Code de persistence event store
+
+**
+Code api rest
 
 **
 
