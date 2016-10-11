@@ -5,8 +5,20 @@ code mark {
     */
 }
 
-.reveal .text-hover-image {
-    background: black;
-    color: white;
-    opacity: 0.7; 
+
+.text-hover-image {
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.75) !important;
+}
+
+.align-top {
+	position: absolute;
+	top: 0 !important;
+}
+
+.align-left {
+	text-align: left !important;
+}
+
+.align-right {
+	text-align: right !important;
 }
