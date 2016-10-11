@@ -4,3 +4,9 @@ code mark {
     background-color: #0f0f0f;
     */
 }
+
+.reveal .text-hover-image {
+    background: black;
+    color: white;
+    opacity: 0.7; 
+}

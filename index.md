@@ -19,6 +19,8 @@ Note: Nous allons donc vous parler de DDD et plus précisement etc...
 ***
 Julien Salleyron
 
+<img src="./img/juliens.png" width="120" />
+
 @juguul
 
 https://github.com/juliens
@@ -162,26 +164,44 @@ Conclusion DE
 ## Les Bounded Contexts
 
 **
-Schema avec Tactical Pattern / Strategic Pattern avec le bounded context
-Note: les gens se focalisent sur les * patterns (doctrine) et oublient les * patterns (bounded contexts)
+<img src="./img/half-ddd.jpg" width="600" />
+Note: Le bouquin D'Eric Evans est composé de 2 parties bien distinct, les
+patterns technique et les patterns stratégique, les gens ont souvent tendances
+à connaitre les patterns technique (on est des techniciens après tout)
+
+**
+##Pattern technique
+- Entity
+- Aggregates
+- Repository
+- Value Object
+- Domain Event
+
+Note: Voici une liste non exhaustive de pattern technique, on reconnais les
+patterns qui sont plus ou moins implémenté dans Doctrine
+
+**
+##Pattern stratégique
+- Bounded Context
+- ACL
+- ...
+
+Note: Et voici des patterns stratégiques. Ici on voit le Bounded Context
 **
 
-Des environnements métiers
+<!-- .slide: data-background="./img/metier.jpg" -->
+###Des environnements métiers<!-- .element: class="text-hover-image" --> 
 **
 <!-- .slide: data-background="./img/images/separation.jpg" -->
-Différents <!-- .element: class="text-hover-image" --> 
+###Différents <!-- .element: class="text-hover-image" --> 
 
 **
 <!-- .slide: data-background="./img/images/isolated.jpg" -->
-Isolés <!-- .element: class="text-hover-image" -->
+###Isolés <!-- .element: class="text-hover-image" -->
 
 **
 <!-- .slide: data-background="./img/images/coffee.jpg" -->
-Avec leur propre Ubiquitous Language <!-- .element: class="text-hover-image" -->
-
-**
-
-(Schema représentant les différents bounded contexts : e-boutique, stock, facturation, reporting, etc)
+###Avec leur propre Ubiquitous Language <!-- .element: class="text-hover-image" -->
 
 **
 ##Entity dans E-Boutique
@@ -199,19 +219,26 @@ Avec leur propre Ubiquitous Language <!-- .element: class="text-hover-image" -->
  - Lieu (de stockage)
  ...
 
+
+**
+### Même language 
+
+<img src="./img/guitare.jpg" />
+<img src="./img/string.jpg" width="300" style="display:inline" />
+```
+$a = "STRING";
+```
+###dans des contexts différents
+
+Note: Des mots peuvent vouloir dire des choses différentes dans leur contexte,
+quand je dis à ma fille de mettre ses brassards, je parle evidement de sa boué
+et bien sure pas du stuff que j'ai looté hier dans Diablo 3
+
+**
+Une identité
+
 **
 ##Comment synchroniser tout ça ?
-
-**
-Stock  =>  E-Boutique
-
-Note: Schema représentant la communication entre les bounded context => domain event) Que se passe t il quand je change le nom du produit dans le stock ? dois je réellement être dépendant de l'e-boutique 
-
-**
-
-E-Boutique  => Stock
-
-Note: L'E-Boutique doit elle tomber si le stock tombe ?
 
 ***
 
@@ -402,20 +429,33 @@ Note:
 ***
 <!-- JulienS -->
 
-#Infrastructure
+<!-- .slide: data-background="./img/infrastructure.jpg" -->
+
+###Infrastructure <!-- .element: class="text-hover-image" -->
 
 **
-## Broker
+<!-- .slide: data-background="./img/broker.jpg" -->
 
+<div class="text-hover-image">
 * RabbitMQ
 * Kafka
 * ZeroMQ
 ...
-Note: implémente le pattern publishsubcribe, permet de gérer des events
+</div>
+Note: Nous allons utiliser un Broker, il en existe plusieurs
 
 **
-### RabbitMQ
+<!-- .slide: data-background="./img/lapin.jpg" -->
+### RabbitMQ <!-- .element: class="text-hover-image" -->
+J'ai pas mis de chat, mais j'ai mis un lapin ca compte ? <!-- .element: class="blockquote text-hover-image" -->
 
+Note:Nous allons choisir RabbitMQ pour notre exemple
+
+**
+<!-- .slide: data-background="./img/news.jpg" -->
+### Publish Subscribe <!-- .element: class="text-hover-image" -->
+
+Note:implémente le pattern publishsubcribe, permet de gérer des events
 **
 <img src="./img/images/rabbitmq-schema.png" width="600" style="float: left;" />
  - cluster
@@ -430,6 +470,9 @@ Note: implémente le pattern publishsubcribe, permet de gérer des events
 <!-- .slide: data-background="./img/images/pieces-detachees-auto.jpg" -->
 Complexité <!-- .element: class="text-hover-image" -->
 Note: Pas envie de gérer tout ça
+
+**
+<img src="./img/non.jpg" />
 
 **
 <!-- .slide: data-background="./img/images/possible.jpg" -->
@@ -485,10 +528,10 @@ Note:
 <!-- JulienS -->
 <img src="./img/images/fred.jpg" />
 Note: 
-- Ca vous rappelle rien ? 
-- Des events qui décrivent les changements d'une entité ?
-- Qu'on peut rejouer dans l'ordre pour reconstruire un état ?
-- C'est comme ça qu'on va synchroniser nos bounded contexts
+Et bien si, c'est simple,
+Nous avons une liste de tout les evenements qui se sont passé sur un bounded
+context, il ne nous reste plus qu'à les lire régulièrement et à réagir en
+fonction de ça.
 
 **
 ## Api REST
@@ -496,32 +539,53 @@ Note:
 
 **
 ```json
+[
 {
+    changement_adresse
+    entity_id: 5,
+
+},
+{
+    changement_adresse
+    entity_id: 5,
+    ancien_sexe: F, /// WTF ?
+    nouveau_sexe: M
+
 }
+]
+
 ```
 
 **
+
+Image pleins de documents
+
+**
+
 ##Pagination
 Attention à l'ordre pour les rejouer
 Note: Hateos ?
 
 **
+image remember
 ## Remember
 
 Note: La seule chose dont à besoin de se souvenir le bounded context client,
 c'est le dernier event traité
 
 **
+Image horloge
 ## Crontab
 Note: déclenchement d'un script
 
 **
 
 Code de event sourcing
+Code de persistence event store
 
 **
 
-Code de persistence event store
+Code de la boucle sur l'event store
 
 **
 
