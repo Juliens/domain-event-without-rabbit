@@ -33,8 +33,15 @@ Note: On est des tueurs bla bla bla
 
 **
 ###Simon Delicata
+
 Lead développeur / Référent technique Alptis Assurances
-Note: On est des tueurs bla bla bla
+
+s.delicata@alptis.fr
+
+http://www.afterglow.fr
+Note:
+- Bonjour à tous, je Simon Delicata, je suis lead developpeur et référent technique du pole web d'Alptis Assurances
+- Dans une autre vie je suis également chanteur/guitariste d'un groupe de rock alternatif qui s'appelle AFTERGLOW
 
 ***
 
@@ -49,17 +56,17 @@ Note: Pour commencer on va parler de DDD et des Domain Events
 * Bounded context
 * Model Driven Design
 * Layered Architecture
+* Anti Corruption Layer
 * Entities
 * Value Objects
 * Aggregates
-* Anti Corruption Layer
 
 Note:
 - Quand on parle de DDD, on pense tout de suite au livre d'Eric Evans (2003)
 - Tout le monde a déjà entendu parlé de ce livre ? Ok. Tiens, et qui l'a lu parmis vous ?
 - C'est vraiment un incoutournable, on le considère comme la bible du DDD
 - Alors il est très théorique
-- Mais il a le mérite d'aborder tous les concepts de base <!-- comme l'ubiquitous language, les bounded context, l'architecture hexagonale, des mots qui parlent aux PHPistes tels que entities, repositories, etc. -->
+- Mais il a le mérite d'aborder tous les concepts de base : ubiquitous...<!-- comme l'ubiquitous language, les bounded context, l'architecture hexagonale, des mots qui parlent aux PHPistes tels que entities, repositories, etc. -->
 - Par contre, dans ce livre, __il n'y a pas de notion de Domain Event__
 
 **
@@ -70,10 +77,10 @@ Note:
 * Bounded context
 * Model Driven Design
 * Layered Architecture
+* Anti Corruption Layer
 * Entities
 * Value Objects
 * Aggregates
-* Anti Corruption Layer
 * **Domain Events**
 
 Note: 
@@ -106,7 +113,7 @@ Note:
 Note:
 - Notre message représente un événement métier qui s'est déroulé __dans le passé__
 - C'est très important, il ne faut pas le confondre avec une commande
-- La commande va déclencher une action, alors que le DE est plutôt la résultante de cette action
+- La commande va déclencher une action, alors que le DE serait plutôt la résultat de cette action
 - Il a déjà eu lieu à un moment précis et on doit savoir exactement quand
 
 **
@@ -114,7 +121,7 @@ Note:
 <!-- .slide: data-background="./img/images/entity2.jpg" -->
 Note:
 - Notre Domain Event concerne toujours une entité de notre domaine, ou encore un aggrégat
-- ex: un utilisateur a changé de mot de passe, un produit a été acheté ou en encore un post a été publié sur le forum, 
+- ex: un utilisateur a changé de mot de passe, un produit a été acheté ou encore un post a été publié sur le forum, 
 - Vous avez compris l'idée ?
 
 **
@@ -155,7 +162,7 @@ Note:
 - Pour terminer vous remarquerez qu'il n'y a que des getters => immutable
 
 **
-Conclusion DE
+Rappel sommaire => enchainement
 
 ***
 
@@ -242,13 +249,12 @@ et bien sure pas du stuff que j'ai looté hier dans Diablo 3
 ##Comment synchroniser tout ça ?
 
 ***
-
+<!-- (SimonD) -->
 ## Consistance des données
 Note: 
 - Maintenant qu'on a nos BC bien distincts, se pose la question de la consistance des données
 
 **
-<!-- (SimonD) -->
 ### Transactional Consistency
 <img src="./img/images/transactional-consistency.png">
 Note:
@@ -285,23 +291,24 @@ Note:
 <!-- .slide: data-background="./img/images/rescousse.jpg" -->
 ### Les Domain Events à la rescousse ! <!-- .element: class="text-hover-image" -->
 Note: 
-- Vous l'aurez certainement compris, c'est à ce moment que les Domain Events interviennent
+- Vous l'aurez certainement compris, c'est à ce moment que les Domain Events entrent en action
 
 **
 ### Les Domain Events à la rescousse !
 <img src="./img/images/eventual-consistency-with-domain-events.png" />
 Note: 
 - ex précédent : on va seulement enregistrer la commande, publier un Domain Event et afficher un message de confirmation au client
-- Le DE sert de trigger pour déclencher la suite des opérations, qui seront executées __plus tard__, lorsque chaque BC se sera mis à jour
-- On peut avoir une latence de quelques secondes à plusieurs minutes
+- Le DE sert de trigger pour déclencher la suite des opérations, qui seront executées __plus tard__, lorsque chaque BC se sera à jour
+- On peut avoir une latence de quelques sec à plusieurs min
 - Chacun des BC va avoir sa propre fréquence de synchronisation, sa manière de traiter un même DE
 - ex: Peut-être que le BC d'emailing va envoyer immédiatement l'email de confirmation
 - Alors que le BC de logistique va attendre de recevoir 10 commandes avant déclencher un traitement auprès d'un préparateur de commande
 
 **
 ### Un peu de code
+<img src="./img/images/chloe.jpg" />
 Note: 
-- Un peu de code maintenant, n va prendre un exemple très simple
+- Un peu de code maintenant, on va prendre un exemple très simple
 - Le nom d'un produit change dans le BC du stock et publie un DE
 - L'e-boutique écoute ce DE pour mettre à jour sa fiche produit
 
@@ -407,14 +414,15 @@ Note:
 Tolérant aux pannes <!-- .element: class="text-hover-image" -->
 Note:
 - ... tolérant aux pannes
-- En effet si le stock tombe, l'e-boutique n'a pas besoin du stock pour fonctionner
+- En effet si le stock tombe, ou que le serveur d'emailing est mort
+- L'e-boutique n'en a plus besoin pour fonctionner
 - Et vice versa
 
 **
 <!-- .slide: data-background="./img/images/scalability.jpg" -->
 Scalabilité <!-- .element: class="text-hover-image" -->
 Note:
-- On ouvrir également la porte à la scalabilité et à la performance
+- On ouvrir également la porte à la scalabilité
 - Grace au fonctionnement asynchrone reposant sur des events
 
 **
@@ -498,7 +506,7 @@ Capturer tous les changements d'état sous forme d'event <!-- .element: class="t
 <!-- .slide: data-background="./img/images/event.jpg" -->
 Note:
 - Tous les changements d'état de l'application sont capturés sous forme d'event
-- ex: UtilisateurAuthentifié, PaiementEffectué, etc
+- ex: UtilisateurAuthentifié, ProduitAjoutéAuPanier, PaiementEffectué, etc
 
 **
 Enregistrer les events dans un Event Store <!-- .element: class="text-hover-image" -->
@@ -514,7 +522,7 @@ Exemple d'architecture
 <img src="./img/images/event-sourcing-schema.png" />
 Note: 
 - Reprenons l'exemple dans notre e-boutique
-- Depuis la couche présentation on enregistre toutes les actions de l'utilisateur
+- On enregistre toutes les actions de l'utilisateur
 - ex: panier créé, produit 1 ajouté au panier, produit 2, informations d'expédition ajoutées, etc
 - Et bien entendu on les persiste dans notre event store
 
@@ -598,8 +606,12 @@ Schéma Broker et Sans Broker
 ***
 <!-- Simond -->
 # Conclusion
-+++: moins compliqué, pas besoin d'un broker, tout l'historique dispo
----: synchro moins rapide => possible d'ajouter un broker plus tard
+Note: 
+- En conclusion, on a vu qu'on pouvait gérer la consistance des données entre nos BC sans broker 
+- Ca nous évite de mettre en place une infrastructure et de complexifier notre code
+- Par contre il faut avoir conscience que la synchro sera moins rapide qu'avec un broker (quasi instantané)
+- On ne peut pas mettre un crontab toutes les secondes
+- L'avantage de cette solution, c'est qu'elle permet d'ajouter facilement un broker par la suite
 
 ***
 # Questions ?
