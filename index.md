@@ -235,7 +235,8 @@ quand je dis à ma fille de mettre ses brassards, je parle evidement de sa boué
 et bien sure pas du stuff que j'ai looté hier dans Diablo 3
 
 **
-Une identité
+<!-- .slide: data-background="./img/drapeau.jpg" -->
+###Identité <!-- .element: class="text-hover-image" -->
 
 **
 ##Comment synchroniser tout ça ?
@@ -558,24 +559,22 @@ Note:
 
 **
 
-Image pleins de documents
+<!-- .slide: data-background="./img/papiers.jpeg" -->
+##Pagination <!-- .element: class="text-hover-image" -->
+
+Note:Attention à l'ordre pour les rejouer
+Hateos
+
 
 **
-
-##Pagination
-Attention à l'ordre pour les rejouer
-Note: Hateos ?
-
-**
-image remember
-## Remember
+<!-- .slide: data-background="./img/forgot.jpg" -->
 
 Note: La seule chose dont à besoin de se souvenir le bounded context client,
 c'est le dernier event traité
 
 **
-Image horloge
-## Crontab
+<!-- .slide: data-background="./img/horloge.jpg" -->
+## Cron <!-- .element: class="text-hover-image" -->
 Note: déclenchement d'un script
 
 **
