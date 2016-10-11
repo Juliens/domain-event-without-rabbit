@@ -403,14 +403,14 @@ Meilleure expérience utilisateur <!-- .element: class="text-hover-image" -->
 Note: On favorise une meilleur expérience utilisateur, comme on l'a vu précédemment
 
 **
-<!-- .slide: data-background="./img/images/robuste2.jpg" -->
+<!-- .slide: data-background="./img/images/robuste2.jpg", data-state="bg-top" -->
 Robuste <!-- .element: class="text-hover-image" -->
 Note: 
 - Comme on respecte bien le principe de couplage faible entre les BC
 - Notre application est plus robuste puisqu'on est maintenant ...
 
 **
-<!-- .slide: data-background="./img/images/tolerance-pannes4.jpg" -->
+<!-- .slide: data-background="./img/images/tolerance-pannes4.jpg", data-state="bg-left" -->
 Tolérant aux pannes <!-- .element: class="text-hover-image" -->
 Note:
 - ... tolérant aux pannes
