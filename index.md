@@ -541,7 +541,7 @@ Note:
 - On enregistre toutes les actions de l'utilisateur
 - ex: panier créé, produit 1 ajouté au panier, produit 2, informations d'expédition ajoutées, etc
 - Et bien entendu on les persiste dans notre event store
-- Voilà Julien, on a vu rapidement ce qu'était l'event sourcing, est-ce que c'est clair pour toi ?
+- Voilà, on a vu rapidement ce qu'était l'event sourcing, est-ce que c'est clair pour tout le monde ?
 
 **
 <img src="./img/images/sabine.jpg" height="400" />
