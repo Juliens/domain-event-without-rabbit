@@ -235,16 +235,20 @@ Note: Et voici des patterns stratégiques. Ici on voit le Bounded Context
 **
 ### Même language 
 
-<img src="./img/guitare.jpg" />
-<img src="./img/string.jpg" width="300" style="display:inline" />
 ```
 $a = "STRING";
 ```
+<img src="./img/guitare.jpg"  height="350" style="width:30%"/>
+<img src="./img/string.png" height="350" style="display:inline;width:30%" />
 ###dans des contexts différents
 
 Note: Des mots peuvent vouloir dire des choses différentes dans leur contexte,
 quand je dis à ma fille de mettre ses brassards, je parle evidement de sa boué
 et bien sure pas du stuff que j'ai looté hier dans Diablo 3
+
+**
+
+<img src="./img/bounded_context.png" height="500" />
 
 **
 <!-- .slide: data-background="./img/drapeau.jpg" -->
@@ -451,12 +455,11 @@ Note:
 ###Infrastructure <!-- .element: class="text-hover-image" -->
 
 **
-<!-- .slide: data-background="./img/broker.jpg", class="align-bottom align-top align-left" -->
+<!-- .slide: data-background="./img/broker.jpg" -->
 <div class="text-hover-image">
 * RabbitMQ
 * Kafka
 * ZeroMQ
-...
 </div>
 Note: Nous allons utiliser un Broker, il en existe plusieurs
 
@@ -472,6 +475,11 @@ Note:Nous allons choisir RabbitMQ pour notre exemple
 ### Publish Subscribe <!-- .element: class="text-hover-image" -->
 
 Note:implémente le pattern publishsubcribe, permet de gérer des events
+
+**
+<img src="./img/cluster.png" />
+###Cluster
+
 **
 <img src="./img/images/rabbitmq-schema.png" width="600" style="float: left;" />
  - cluster
@@ -542,7 +550,7 @@ Heu... Mais c'est quoi le rapport avec les Domain Events ?
 
 ***
 <!-- JulienS -->
-<img src="./img/images/fred.jpg" />
+<img src="./img/fredcourant.jpg" />
 Note: 
 Et bien si, c'est simple,
 Nous avons une liste de tout les evenements qui se sont passé sur un bounded
@@ -554,20 +562,24 @@ fonction de ça.
 Note: 
 
 **
-```json
+```javascript
 [
-{
-    changement_adresse
-    entity_id: 5,
+    {
+        "_id":"a2ef4d345bf",
+        "type":"adresse.changed",
+        "entity_id": 5,
+        "occurredOn": { "date": "2016-10-11 09:04:31.000000" },
+        "nouvelle_adresse":"31 rue de la conf 69008 LYON"
+    },
+    {
+        "_id":"bce462bb567",
+        "type":"sexe.changed" // WTF ?
+        "entity_id": 1,
+        "occurredOn": { "date": "2016-10-09 09:00:31.000000" },
+        "ancien_sexe": "F",
+        "nouveau_sexe": "M"
 
-},
-{
-    changement_adresse
-    entity_id: 5,
-    ancien_sexe: F, /// WTF ?
-    nouveau_sexe: M
-
-}
+    }
 ]
 
 ```
@@ -575,14 +587,15 @@ Note:
 **
 
 <!-- .slide: data-background="./img/papiers.jpeg" -->
-##Pagination <!-- .element: class="text-hover-image" -->
+###Pagination
 
 Note:Attention à l'ordre pour les rejouer
 Hateos
 
 
 **
-<!-- .slide: data-background="./img/forgot.jpg" -->
+<img src="./img/forgot.jpg" />
+### Le dernier déjà traité <!-- .element: class="text-hover-image" -->
 
 Note: La seule chose dont à besoin de se souvenir le bounded context client,
 c'est le dernier event traité
@@ -594,19 +607,94 @@ Note: déclenchement d'un script
 
 **
 
-Code de event sourcing
-Code de persistence event store
+```php
+//Atention il faut qu'il soit synchrone
+class DomainEventPersistanceListener {
+    public function persistEvent(DomainEvent, $domainEvent) {
+        $this->repository->save($domainEvent);
+    }
+}
+```
 
 **
-Code api rest
+```php
+class EventRepository {
+  public function findEvents($offset = false, $limit = false)
+    {
+        $results = $this->connection->db->events->find()->sort(array('occurredOn' => 1));
+        $results->skip($offset);
+        $results->limit($limit);
+        return array_reverse($results);
+    }
+}
+```
+
+
+**
+```php
+/** @Route("/events") */
+public function lastEventsAction() {
+    $last_page = $this->get('events_repository')->getLastPageNumber();
+    $arResponse = [ 'events'=> $this->get('events_repo')->getLastEvents() ];
+    if ($last_page>1) {
+        $arResponse['previous_page'] = $last_page-1;
+    }
+
+    return new JsonResponse($arResponse);
+}
+
+```
+
+**
+```php
+/** @Route("/events/{page}") */
+public function EventsAction($page) {
+    $last_page = $this->get('events_repository')->getLastPageNumber();
+    $arResponse = [ 'events'=>
+    $this->get('events_repo')->getEventsByPage($page) ]
+    if ($last_page>1) {
+        $arResponse['previous_page'] = $last_page-1;
+    }
+    if ($page<$last_page) {
+        $arResponse['next_page'] = $last_page+1;
+    }
+    $response = new JsonResponse($arResponse);
+    $response->setMaxAge(31536000);
+    return $response;
+}
+
+```
 
 **
 
-Code de la boucle sur l'event store
+```php
+$api = json_decode(file_get_contents($stockUrl."/events"));
+foreach ($api['events'] as $event) {
+
+}
+```
+
 
 **
 
-Code listener
+```php
+namespace Eboutique\Listener;
+
+class NomProduitModifiéListener implements DomainEventListenerInterface {
+
+    public function __construct(EntityRepository $repository) {
+        $this->repository = $repository;
+    }
+
+    public function handle(NomProduitModifiéDomainEvent $event) {
+        // Met à jour l'entité Produit du Bounded Context E-boutique
+        $informations = $event->getEventInformations();
+        $produit = $this->repository->get($event->getRootEntityId());
+        $produit->changeNom($informations['nouveauNom']);
+        $this->repository->save($produit);
+    }
+}
+```
 
 **
 
