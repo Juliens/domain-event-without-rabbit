@@ -464,17 +464,18 @@ Note:
 Note: Nous allons utiliser un Broker, il en existe plusieurs
 
 **
+<!-- .slide: data-background="./img/news.jpg" -->
+### Publish Subscribe <!-- .element: class="text-hover-image" -->
+
+Note:implémente le pattern publishsubcribe, permet de gérer des events
+
+**
 <!-- .slide: data-background="./img/lapin.jpg" -->
 ### RabbitMQ <!-- .element: class="text-hover-image" -->
 J'ai pas mis de chat, mais j'ai mis un lapin ca compte ? <!-- .element: class="blockquote text-hover-image" -->
 
 Note:Nous allons choisir RabbitMQ pour notre exemple
 
-**
-<!-- .slide: data-background="./img/news.jpg" -->
-### Publish Subscribe <!-- .element: class="text-hover-image" -->
-
-Note:implémente le pattern publishsubcribe, permet de gérer des events
 
 **
 <img src="./img/cluster.png" />
@@ -610,7 +611,7 @@ Note: déclenchement d'un script
 ```php
 //Atention il faut qu'il soit synchrone
 class DomainEventPersistanceListener {
-    public function persistEvent(DomainEvent, $domainEvent) {
+    public function persistEvent(DomainEvent $domainEvent) {
         $this->repository->save($domainEvent);
     }
 }
