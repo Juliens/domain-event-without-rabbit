@@ -146,7 +146,7 @@ Note:
 - Enfin, un Domain Event est par essence immutable
 - C'est un objet dont l'état ne peut pas être modifié après sa création
 - Ca semble logique étant donné qu'il représente un événement __passé__
-- On ne peut pas réécrire l'histoire (sourir et regard vers le slide) ... quoi que...
+- A moins de s'appeler Marty Mc Fly, on ne peut pas réécrire l'histoire
 
 **
 ```php
