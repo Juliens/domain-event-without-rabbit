@@ -493,7 +493,7 @@ Note:Nous allons choisir RabbitMQ pour notre exemple
 
 **
 <!-- .slide: data-background="./img/images/pieces-detachees-auto.jpg" -->
-Complexité <!-- .element: class="text-hover-image" -->
+###Complexité <!-- .element: class="text-hover-image" -->
 Note: Pas envie de gérer tout ça
 
 **
@@ -501,8 +501,7 @@ Note: Pas envie de gérer tout ça
 
 **
 <!-- .slide: data-background="./img/images/possible.jpg" -->
-Publier des Domain Event sans Broker :
-<br /> c'est possible <!-- .element: class="text-hover-image" -->
+###Publier des Domain Event sans Broker : C'est possible <!-- .element: class="text-hover-image" -->
 
 <!-- SimonD -->
 ***
@@ -603,7 +602,7 @@ c'est le dernier event traité
 
 **
 <!-- .slide: data-background="./img/horloge.jpg" -->
-## Cron <!-- .element: class="text-hover-image" -->
+### Cron <!-- .element: class="text-hover-image" -->
 Note: déclenchement d'un script
 
 **
@@ -669,10 +668,23 @@ public function EventsAction($page) {
 **
 
 ```php
-$api = json_decode(file_get_contents($stockUrl."/events"));
-foreach ($api['events'] as $event) {
+    //extrait de getEvents()
+    $events_api = json_decode(file_get_contents($url.'/events'));
+    while(isset($events_api['previous_page'])) {
+        foreach($events_api['events'] as $event) {
+            yield $event;
+        }
+        $events_api = json_decode(file_get_contents($events_api['previous_page']);
+    }
 
-}
+    //extrait de handle()
+    $eventToDispatch = [];
+    foreach ($this->getEvents() as $event) {
+        $eventsToDispatch[] = $event 
+    }
+    foreach(array_reverse($eventsToDispatch) as $event) {
+        $this->dispatcher->dispatch($event);
+    }
 ```
 
 
@@ -699,7 +711,11 @@ class NomProduitModifiéListener implements DomainEventListenerInterface {
 
 **
 
-Schéma Broker et Sans Broker
+<img src="./img/schema_sans_broker.jpg" />
+
+**
+
+<img src="./img/schema_avec_broker.jpg" />
 
 
 ***
