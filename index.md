@@ -143,7 +143,7 @@ Note:
 <!-- .slide: data-background="./img/images/back-to-the-future.jpg" class="align-top" -->
 ###Immutable<!-- .element: class="text-hover-image" -->
 Note:
-- Un Domain Event est par essence immutable
+- Enfin, un Domain Event est par essence immutable
 - C'est un objet dont l'état ne peut pas être modifié après sa création
 - Ca semble logique étant donné qu'il représente un événement __passé__
 - On ne peut pas réécrire l'histoire (sourir et regard vers le slide) ... quoi que...
@@ -159,7 +159,7 @@ interface DomainEventInterface
 }
 ```
 Note:
-- Alors voici un example de code représentant un Domain Event
+- Pour terminer, voici un example de code représentant un Domain Event
 - Il s'agit d'une interface
 - Et le contrat nous dit qu'il doit être capable de retourner :
     - un type (pour pouvoir être filtré)
@@ -271,9 +271,10 @@ Note:
 <!-- .slide: data-background="./img/images/server-down2.jpg" -->
 ### Server Down<!-- .element: class="text-hover-image" -->
 Note: 
-- Qu'est ce qu'il se passe si le serveur d'envoi de mail est down ?
+- Oui mais alors qu'est ce qu'il se passe si le serveur d'envoi de mail est down ?
+- On va se poser des question embarassantes du genre :
 - Est-ce que la commande a quand même bien été validée ?
-- L'email de confirmation est-il perdu ? Va t-il être renvoyé une fois la panne résolue ?
+- Et l'email de confirmation, est-ce qu'il est perdu ? Est-ce qu'on va pouvoir le renvoyer une fois la panne résolue ?
 
 **
 <!-- .slide: data-background="./img/images/bad-ux4.jpg" -->
@@ -313,8 +314,9 @@ Note:
 ### Un peu de code
 <img src="./img/images/chloe.jpg" height="500" />
 Note: 
-- Un peu de code maintenant, on va prendre un exemple très simple
-- Le nom d'un produit change dans le BC du stock et publie un DE
+- Un peu de code maintenant, on va prendre un exemple volontairement très imple
+- imaginons qu'on change le nom d'un produit dans le BC du stock
+- Le stock va publier un DE pour informer le reste du système
 - L'e-boutique écoute ce DE pour mettre à jour sa fiche produit
 
 **
@@ -392,9 +394,10 @@ class NomProduitModifiéListener {
 }
 ```
 Note:
-- Du son côté l'e-boutique va écouter le DE de changement du nom d'un produit publié depuis le stock
+- De son côté l'e-boutique va écouter le DE de changement du nom d'un produit publié depuis le stock
 - Elle met à jour son propre référentiel produit
 - Attention, il s'agit bien de l'entité Produit dans le BC de l'e-boutique
+- A ne pas confondre avec la classe Produit du stock qu'on a vu précédement et qui a publié le DE
 
 **
 <!-- .slide: data-background="./img/images/avantages.jpg" class="align-top" -->
@@ -404,7 +407,7 @@ Note: Cette architecture présente plusieurs avantages
 **
 <!-- .slide: data-background="./img/images/good-ux.jpg" -->
 ### Meilleure expérience utilisateur <!-- .element: class="text-hover-image" -->
-Note: On favorise une meilleur expérience utilisateur, comme on l'a vu précédemment
+Note: Pour commencer, on favorise une meilleur expérience utilisateur, comme on l'a vu précédemment
 
 **
 <!-- .slide: data-background="./img/images/robuste2.jpg", data-state="bg-top" -->
@@ -419,8 +422,9 @@ Note:
 Note:
 - ... tolérant aux pannes
 - En effet si le stock tombe, ou que le serveur d'emailing est mort
-- L'e-boutique n'en a plus besoin pour fonctionner
-- Et vice versa
+- L'e-boutique n'en a plus besoin pour fonctionner, ce qui est quand même préférable.
+- Et l'inverse est vrai également, si la boutique est indisponible parce qu'on a une belle erreur 500 sur la page d'accueil
+- Du côté du stock, on pourra continuer de bosser sans aucun problème
 
 **
 <!-- .slide: data-background="./img/images/scalability.jpg" -->
@@ -434,10 +438,10 @@ Note:
 ### BRAND NEW KILLER FEATURE ! <!-- .element: class="text-hover-image" -->
 Note: 
 - Enfin on peut facilement ajouter de nouvelles fonctionnalités sans impacter lourdement le code existant
-- ex: On peut facilement introduire un nouveau BC comme le transport
-- Le transporteur pourrait avoir besoin de connaître le changement de poids d'un produit pour impacter le prix des frais de port
+- ex: On pourrait facilement introduire un nouveau BC comme le transport
+- Le transporteur pourrait avoir besoin de connaître le changement de poids d'un produit pour impacter le calcul des frais de port
 - Si le stock publie déjà un DE de changement de poids d'un produit, alors il suffit de s'abonner
-- Alors que la mise à jour de la fiche produit de l'e-boutique n'est pas impactée
+- Alors que la mise à jour de la fiche produit de l'e-boutique reste inchangée
 
 ***
 <!-- JulienS -->
@@ -519,7 +523,7 @@ Note:
 - Tous ces events sont stockés dans un EventStore
 - L'ordre des events est préservé
 - De manière à pouvoir reconstruire l'état de l'entité ou de l'aggrégat
-- La structure même des différents events de notre application pouvant être radicalement différent, utiliser une base noSQL comme MongoDB, par ex, est parfaitement adaptée
+- La structure même des différents events pouvant être radicalement différent, on favorisera plutôt une base de type noSQL comme MongoDB, par ex.
 
 **
 ###Exemple d'architecture
@@ -529,13 +533,12 @@ Note:
 - On enregistre toutes les actions de l'utilisateur
 - ex: panier créé, produit 1 ajouté au panier, produit 2, informations d'expédition ajoutées, etc
 - Et bien entendu on les persiste dans notre event store
+- Voilà Julien, on a vu rapidement ce qu'était l'event sourcing, est-ce que c'est clair pour toi ?
 
 **
 <img src="./img/images/sabine.jpg" height="400" />
 
-Mais c'est quoi le rapport avec les Domain Events ?...
-Note:
-- *Heu... ok, j'ai bien compris ce qu'était l'event sourcing, mais après ?*
+Heu... Mais c'est quoi le rapport avec les Domain Events ?
 
 ***
 <!-- JulienS -->
