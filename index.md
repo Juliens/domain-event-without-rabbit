@@ -507,7 +507,7 @@ Note: Pas envie de gérer tout ça
 ***
 ##Event sourcing
 <img src="./img/images/jamie.jpg" />
-Note: Et bien Julien, nous allons nous appuyer sur le pattern Event Sourcing
+Note: Et bien oui Julien ! Et pour cela nous allons nous appuyer sur le pattern Event Sourcing
 
 **
 ###Principe de base
@@ -531,7 +531,7 @@ Note:
 - Tous ces events sont stockés dans un EventStore
 - L'ordre des events est préservé
 - De manière à pouvoir reconstruire l'état de l'entité ou de l'aggrégat
-- La structure même des différents events pouvant être radicalement différent, on favorisera plutôt une base de type noSQL comme MongoDB, par ex.
+- Comme la structure même des différents events pourra être radicalement différent, on utilisera plutôt une base de type noSQL comme MongoDB, par ex.
 
 **
 ###Exemple d'architecture
@@ -546,7 +546,7 @@ Note:
 **
 <img src="./img/images/sabine.jpg" height="400" />
 
-Heu... Mais c'est quoi le rapport avec les Domain Events ?
+Heu... Oui, mais c'est quoi le rapport avec les Domain Events ?
 
 ***
 <!-- JulienS -->
@@ -693,7 +693,7 @@ public function EventsAction($page) {
 ```php
 namespace Eboutique\Listener;
 
-class NomProduitModifiéListener implements DomainEventListenerInterface {
+class NomProduitModifiéListener {
 
     public function __construct(EntityRepository $repository) {
         $this->repository = $repository;
