@@ -69,10 +69,9 @@ Note: Pour commencer on va parler de DDD et des Domain Events
 
 Note:
 - Quand on parle de DDD, on pense tout de suite au livre d'Eric Evans (2003)
-- Tout le monde a déjà entendu parlé de ce livre ? Ok. Tiens, et qui l'a lu parmis vous ?
+- Est-ce qu'il y en a parmis vous qui l'ont lu ?
 - C'est vraiment un incoutournable, on le considère comme la bible du DDD
-- Alors il est très théorique
-- Mais il a le mérite d'aborder tous les concepts de base : ubiquitous...<!-- comme l'ubiquitous language, les bounded context, l'architecture hexagonale, des mots qui parlent aux PHPistes tels que entities, repositories, etc. -->
+- Alors il est très théorique, mais il a le mérite d'aborder tous les concepts de base : ubiquitous...<!-- comme l'ubiquitous language, les bounded context, l'architecture hexagonale, des mots qui parlent aux PHPistes tels que entities, repositories, etc. -->
 - Par contre, dans ce livre, __il n'y a pas de notion de Domain Event__
 
 **
@@ -91,10 +90,10 @@ Note:
 * **Domain Events**
 
 Note: 
-- C'est seulement 10 ans plus tard que Vernon (2013) introduit les Domain Events dans son livre "Implementing Domain Driven Design", IDDD pour les intimes
+- C'est seulement 10 ans plus tard que Vernon (2013) introduit les Domain Events dans son livre "Implementing Domain Driven Design", ou encore "IDDD" pour les intimes
 - Vous le connaissez celui-ci ? Qui l'a déjà lu ?
 - Je vous le recommande vraiment, parce qu'il est moins théorique, il y a beaucoup d'exemples concrets, avec du code.
-- Bon malheureusement ils sont en java...
+- Bon malheureusement ils sont écrit en java...
 
 **
 ### Domain Event : Kesako ?
@@ -111,8 +110,8 @@ Note:
 ###Un message publié <!-- .element: class="text-hover-image" -->
 Note:
 - C'est un message qu'on va __publier__
-- L'image du slide est bien choisi, parce qu'on va le publier sans se préocupper de qui va le recevoir, ou pas d'ailleurs
-- C'est un détail qui a son importance, on le vera plus tard
+- L'image du slide est bien choisi, parce qu'on va le publier sans se préocupper de qui va le recevoir, ou ne pas le recevoir d'ailleurs
+- C'est un détail qui a son importance, on le vera plus tard dans la présentation
 
 **
 <!-- .slide: data-background="./img/images/past2.jpg" -->
@@ -326,10 +325,10 @@ Note:
 **
 Exemple d'un domain event
 ```php
-class NomProduitModifiéDomainEvent implements DomainEventInterface {
+class NomProduitChangedDomainEvent implements DomainEventInterface {
     
     public function __construct($produitId, $ancienNom, $nouveauNom) {
-        $this->type = 'produit.nom.modifié';
+        $this->type = 'produit.nom.changed';
         $this->rootEntityId = $produitId;
         $this->occuredOn = new \DateTime();
         $this->informations = [
@@ -364,7 +363,7 @@ class Produit {
     public function changeNom($nouveauNom) {
         $ancienNom = $this->nom;
         $this->nom = $nouveauNom;
-        $this->dispatch(new NomProduitModifiéDomainEvent(
+        $this->dispatch(new NomProduitChangedDomainEvent(
             $this->getId(),
             $ancienNom,
             $nouveauNom
@@ -382,13 +381,13 @@ Listener de l'e-boutique
 ```php
 namespace Eboutique\Listener;
 
-class NomProduitModifiéListener {
+class NomProduitChangedListener {
 
     public function __construct(EntityRepository $repository) {
         $this->repository = $repository;
     }
 
-    public function handle(NomProduitModifiéDomainEvent $event) {
+    public function handle(NomProduitChangedDomainEvent $event) {
         // Met à jour l'entité Produit du Bounded Context E-boutique
         $informations = $event->getInformations();
         $produit = $this->repository->get($event->getRootEntityId());
@@ -538,15 +537,15 @@ Note:
 <img src="./img/images/event-sourcing-schema.png" />
 Note: 
 - Reprenons l'exemple dans notre e-boutique
-- On enregistre toutes les actions de l'utilisateur
-- ex: panier créé, produit 1 ajouté au panier, produit 2, informations d'expédition ajoutées, etc
-- Et bien entendu on les persiste dans notre event store
-- Voilà, on a vu rapidement ce qu'était l'event sourcing, est-ce que c'est clair pour tout le monde ?
+- On enregistre toutes les actions de l'utilisateur : panier créé, produit ajouté, etc
+- Bien entendu on les persiste dans notre store
+- On pourrait dire encore plein de chose sur l'ES, parler de snapshots, de CQRS, etc
+- Mais on ne fait que s'inspirer du principe de base, est-ce c'est bon pour tout le monde ?
 
 **
 <img src="./img/images/sabine.jpg" height="400" />
 
-Heu... Oui, mais c'est quoi le rapport avec les Domain Events ?
+Heu... Oui, mais du coup c'est quoi le rapport avec les Domain Events ?
 
 ***
 <!-- JulienS -->
@@ -693,13 +692,13 @@ public function EventsAction($page) {
 ```php
 namespace Eboutique\Listener;
 
-class NomProduitModifiéListener {
+class NomProduitChangedListener {
 
     public function __construct(EntityRepository $repository) {
         $this->repository = $repository;
     }
 
-    public function handle(NomProduitModifiéDomainEvent $event) {
+    public function handle(NomProduitChangedDomainEvent $event) {
         // Met à jour l'entité Produit du Bounded Context E-boutique
         $informations = $event->getEventInformations();
         $produit = $this->repository->get($event->getRootEntityId());
