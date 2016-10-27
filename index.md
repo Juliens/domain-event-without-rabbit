@@ -215,20 +215,18 @@ Note: Et voici des patterns stratégiques. Ici on voit le Bounded Context
 ###Avec leur propre Ubiquitous Language <!-- .element: class="text-hover-image" -->
 
 **
-##Entity dans E-Boutique
+##E-Boutique
  - Produit
  - Commentaire
  - Note
  - Commande
- ...
 
 **
-##Entity dans Stock-Fournisseur
+##Stock-Fournisseur
  - Produit 
  - Fournisseur
  - Prix
  - Lieu (de stockage)
- ...
 
 
 **
@@ -495,6 +493,7 @@ Note:Nous allons choisir RabbitMQ pour notre exemple
  - queue
  - fanout
  - channel
+ - ack
  - ...
 
 **
@@ -683,24 +682,36 @@ public function EventsAction($page) {
 **
 
 ```php
-    //extrait de getEvents()
-    $events_api = json_decode(file_get_contents($url.'/events'));
-    while(isset($events_api['previous_page'])) {
-        foreach($events_api['events'] as $event) {
-            yield $event;
-        }
-        $events_api = json_decode(file_get_contents($events_api['previous_page']);
-    }
-
     //extrait de handle()
     $eventToDispatch = [];
     foreach ($this->getEvents() as $event) {
+        if ($event['id']==$last_id) {
+            break;
+        }
         $eventsToDispatch[] = $event 
     }
     foreach(array_reverse($eventsToDispatch) as $event) {
         $this->dispatcher->dispatch($event);
     }
 ```
+**
+
+```php
+public function getEvents() {
+    $events_api = json_decode(file_get_contents($url.'/events'));
+    do {
+        foreach($events_api['events'] as $event) {
+            yield $event;
+        }
+        if (!isset($events_api['previous_page'])) {
+            $events_api = false;
+        } else {
+            $events_api = json_decode(file_get_contents($events_api['previous_page']);
+        }
+    } while($events_api!==false);
+}
+```
+
 
 
 **

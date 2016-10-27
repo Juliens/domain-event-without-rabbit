@@ -1283,7 +1283,7 @@ body {
   bottom: 26px;
   padding: 10px;
   z-index: 1;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.4;
   color: #fff;
   background-color: rgba(0, 0, 0, 0.5);
@@ -1296,9 +1296,9 @@ body {
 .reveal .speaker-notes.visible:not(:empty) {
   display: block; }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1624px) {
   .reveal .speaker-notes {
-    font-size: 14px; } }
+    font-size: 14px; !important } }
 
 @media screen and (max-width: 600px) {
   .reveal .speaker-notes {
